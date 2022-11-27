@@ -1,6 +1,6 @@
 class Team:
 
-    def __init__(self, code, name, stadium, color1, color2):
+    def __init__(self, **kwargs):
         """
         Team that participates in a competition
 
@@ -17,8 +17,9 @@ class Team:
         color2 (str):
             Hex codes for team's secondary color
         """
-        self.code = code
-        self.name = name
-        self.stadium = stadium
-        self.color1 = color1
-        self.color2 = color2
+        self.name = kwargs["name"]
+        self.stadium = kwargs["stadium"]
+        self.color1 = kwargs["color1"]
+        self.color2 = kwargs["color2"]
+
+        self.stats = {}

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from objects import *
+from .objects import *
 
 def weighted_variance(data, weights):
     assert len(data) == len(weights), 'Data and weights must be same length'

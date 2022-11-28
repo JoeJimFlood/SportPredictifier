@@ -6,8 +6,6 @@ class Stadium:
 
         Attributes
         ----------
-        code (str):
-            Code used for identifying team name
         name (str):
             Stadium name
         location (str):
@@ -19,6 +17,7 @@ class Stadium:
         elev (float):
             Elevation (in meters) of stadium
         """
+        self.code = kwargs["code"]
         self.name = kwargs["name"]
         self.location = kwargs["location"]
         self.lat = kwargs["lat"]

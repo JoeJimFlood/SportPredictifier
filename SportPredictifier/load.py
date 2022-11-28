@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 from .objects import *
 
@@ -41,3 +42,9 @@ def teams(fp, stadia):
     team_table['stadium'] = team_table['stadium'].map(stadia)
     
     return __load_table(Team, team_table)
+
+def score_tables(score_table_path):
+    score_tables = {}
+    for score_table_file in os.listdir(score_table_path):
+        score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
+    return score_tables

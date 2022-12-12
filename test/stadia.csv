@@ -1,16 +1,36 @@
 code,name,location,lat,lon,elev
-SEA,Starfire Stadium,Tukwila,47.93333333,-122.25,0
-SD,SDSU Sports Deck,San Diego,32.771735,-117.077113,0
-SLC,Zions Bank Stadium,Herriman,40.48333333,-111.9833333,1500
-AUS,Bold Statium,Austin,30.1359,-97.6393,0
-HOU,Aveva Stadium,Houston,29.6345,-95.3899,0
-NO,Gold Mine,Metairie,29.975442,-90.199742,0
-DAL,Choctaw Stadium,Arlington,32.751389,-97.082778,0
-LA,Los Angeles Memorial Coliseum,Los Angeles,34.014167,-118.287778,0
-NE,Veterans Memorial Stadium,Quincy,42.261111,-71.01,0
-DC,Segra Field,Leesburg,39.070746,-77.545434,0
-NY,John F Kennedy Stadium,Hoboken,40.7496626,-74.0360646,0
-ATL,Atlanta Silverbacks Park,DeKalb County,33.8915,-84.2553,0
-TOR,York Lions Stadium,Toronto,43.77467,-79.50677,0
-LAN,Starlight Stadium,Langford,48.443056,-123.523611,0
-HAR,Red Bull Arena,Harrison,40.73666667,-74.15027778,0
+BUF,Bills Stadium,Orchard Park,42.774,-78.787,0
+MIA,Hard Rock Stadium,Miami Gardens,27.95833333,-80.23883333,0
+NE,Gillette Stadium,Foxborough,47.09166667,-71.26666667,0
+NYJ,MetLife Stadium,East Rutherford,40.80833333,-74.075,0
+BAL,M&T Bank Stadium,Baltimore,39.275,-76.625,0
+CIN,Paul Brown Stadium,Cincinnati,39.095,-84.516,0
+CLE,FirstEnergy Stadium,Cleveland,31.50833333,-80.7,0
+PIT,Heinz Field,Pittsburgh,40.45,-80.01666667,0
+HOU,NRG Stadium,Houston,29.68333333,-95.40833333,0
+IND,Lucas Oil Stadium,Indianapolis,39.75833333,-86.16666667,0
+JAX,TIAA Bank Field,Jacksonville,30.325,-81.63333333,0
+TEN,Nissan Stadium,Nashville,36.16666667,-86.775,0
+DEN,Broncos Stadium at Mile High,Denver,39.74166667,-105.0166667,1609.344
+KC,Arrowhead Stadium,Kansas City,39.05,-94.48333333,0
+LV,Allegiant Stadium,Las Vegas,36.09075,-115.183722,0
+LAC,SoFi Stadium,Inglewood,33.95345,-118.3392,0
+DAL,AT&T Stadium,Arlington,32.75,-97.08333333,0
+NYG,MetLife Stadium,East Rutherford,40.80833333,-74.075,0
+PHI,Lincoln Financial Field,Philadelphia,39.9,-75.16666667,0
+WAS,FedEx Field,Landover,38.90833333,-76.86666667,0
+CHI,Soldier Field,Chicago,41.8623,-87.6176,0
+DET,Ford Field,Detroit,42.34166667,83.04166667,0
+GB,Lambeau Field,Green Bay,44.5,-88.05833333,0
+MIN,U.S. Bank Stadium,Minneapolis,44.974,-93.258,0
+ATL,Mercedes-Benz Stadium,Atlanta,33.755,-84.401,0
+CAR,Bank of America Stadium,Charlotte,35.225,-80.85,0
+NO,Mercedes-Benz Superdome,New Orleans,29.95,-90.08333333,0
+TB,Raymond James Stadium,Tampa,27.975,-82.5,0
+ARI,University of Phoenix Stadium,Glendale,33.525,-112.2666667,0
+LAR,SoFi Stadium,Inglewood,33.95345,-118.3392,0
+SEA,CenturyLink Field,Seattle,47.5952,-122.3316,0
+SF,Levi's Stadium,Santa Clara,37.403,-121.97,0
+LON,Wembley Stadium,London,51.55833333,-0.283333333,0
+TOT,Tottenham Hotspur Stadium,London,51.60833333,-0.066666667,0
+MEX,Estadio Azteca,Mexico City,19.3,-99.15,0

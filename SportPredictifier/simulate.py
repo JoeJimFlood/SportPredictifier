@@ -3,7 +3,7 @@ import numpy as np
 
 from .objects import *
 
-def weighted_variance(data, weights):
+def __weighted_variance(data, weights):
     assert len(data) == len(weights), 'Data and weights must be same length'
     weighted_average = np.average(data, weights = weights)
     v1 = weights.sum()

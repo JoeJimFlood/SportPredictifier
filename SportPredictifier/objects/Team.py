@@ -24,3 +24,4 @@ class Team:
         self.color2 = color2
 
         self.stats = {}
+        self.residual_stats = {}

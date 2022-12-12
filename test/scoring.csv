@@ -1,8 +1,8 @@
-score_type,description,points,type,base,condition
-TD,Touchdown,6,num,,
-FG,Field Goal,3,num,,
-S,Safety,2,num,,
-GOFOR2,2-Point Conversion Attempted,0,prob,0.05,TD_{F}
-PAT1,1-Point Conversion,1,prob,0.9,TD_{F} - GOFOR2_{F}
-PAT2,2-Point Conversion,2,prob,0.5,GOFOR2_{F}
-D2PC,Defensive 2-Point Conversion,2,prob,0.01,TD_{A} - PAT1_{A} - PAT2_{A}
+code,description,points,prob,opp_effect,base,condition
+TD,Touchdown,6,FALSE,TRUE,,
+FG,Field Goal,3,FALSE,TRUE,,
+S,Safety,2,FALSE,TRUE,,
+GOFOR2,2-Point Conversion Attempted,0,TRUE,FALSE,0.05,TD_{F}
+PAT1,1-Point Conversion,1,TRUE,TRUE,0.9,TD_{F} - GOFOR2_{F}
+PAT2,2-Point Conversion,2,TRUE,TRUE,0.5,GOFOR2_{F}
+D2PC,Defensive 2-Point Conversion,2,TRUE,TRUE,0.01,TD_{A} - PAT1_{A} - PAT2_{A}

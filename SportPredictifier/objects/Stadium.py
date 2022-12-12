@@ -1,6 +1,6 @@
 class Stadium:
 
-    def __init__(self, code, name, location, lat, lon):
+    def __init__(self, code, name, location, lat, lon, elev):
         """
         Stadium where a game can be played
 
@@ -24,3 +24,4 @@ class Stadium:
         self.location = location
         self.lat = lat
         self.lon = lon
+        self.elev = elev

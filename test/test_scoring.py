@@ -5,6 +5,8 @@ import os
 base_path = os.path.dirname(__file__)
 scoring = pd.read_csv(os.path.join(base_path, 'scoring.csv'))
 
+print(scoring)
+
 n_sim = 10000
 
 expected_scores = {
@@ -33,13 +35,11 @@ scores_2 = scores_1.copy()
 for index, row in scoring.iterrows():
     for teamno in [1, 2]:
         key = '{0}_{1}'.format(row['score_type'], teamno)
-        if row['type'] == 'num':
-            results[key] = np.random.poisson(expected_scores[key], n_sim)
-        elif row['type'] == 'prob':
+        if row['prob'] == 'prob':
             condition = row['condition'].replace('{F}', str(teamno)).replace('{A}', str(3-teamno))
             results[key] = np.random.binomial(results.eval(condition), expected_scores[key])
         else:
-            raise KeyError("Invalid type")
+            results[key] = np.random.poisson(expected_scores[key], n_sim)
 
     scores_1[row['score_type']] = results['{}_1'.format(row['score_type'])]
     scores_2[row['score_type']] = results['{}_2'.format(row['score_type'])]
@@ -51,5 +51,5 @@ win1 = scores_1 > scores_2
 win2 = scores_1 < scores_2
 draw = scores_1 == scores_2
 
-
+print(win1.sum(), win2.sum(), draw.sum())
 print('Go')

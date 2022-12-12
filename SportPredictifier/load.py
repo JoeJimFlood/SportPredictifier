@@ -1,5 +1,7 @@
 import pandas as pd
+import numpy as np
 import os
+from collections import OrderedDict
 
 from .objects import *
 
@@ -23,9 +25,9 @@ def __combine_colors(df, r, g, b, out_field, cleanup = True):
 
 def __load_table(object, df):
     """
-    Reads table from data frame
+    Reads table from data frame into dictionary of objects
     """
-    output = {}
+    output = OrderedDict()
     df.index = df["code"]
     for row in df.index:
         output[row] = object(**df.loc[row])
@@ -43,8 +45,25 @@ def teams(fp, stadia):
     
     return __load_table(Team, team_table)
 
+def score_settings(fp):
+    score_settings_table = pd.read_csv(fp)
+    return __load_table(ScoreSettings, score_settings_table)
+
 def score_tables(score_table_path):
-    score_tables = {}
+    score_tables = OrderedDict()
     for score_table_file in os.listdir(score_table_path):
         score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
     return score_tables
+
+def get_team_stats(teams, score_settings, score_tables):
+    assert all(team in score_tables for team in teams), "All teams must have a score table"
+    for team in teams:
+        stats = {}
+        for direction in ['F', 'A']:
+            for score_type in score_settings:
+                col = score_type + '_' + direction
+                stats[col] = np.average(
+                    score_tables[team][col],
+                    weights = score_tables[team]['weight']
+                )
+        teams[team].stats = stats

@@ -23,6 +23,16 @@ def __combine_colors(df, r, g, b, out_field, cleanup = True):
         del df[g]
         del df[b]
 
+def __compliment_direction(direction):
+    if direction == 'F':
+        return 'A'
+    elif direction == 'A':
+        return 'F'
+    else:
+        raise IOError('{} is an invalid direction. Must be "F" or "A"'.format(direction))
+
+__directions = ['F', 'A']
+
 def __load_table(object, df):
     """
     Reads table from data frame into dictionary of objects
@@ -59,11 +69,37 @@ def get_team_stats(teams, score_settings, score_tables):
     assert all(team in score_tables for team in teams), "All teams must have a score table"
     for team in teams:
         stats = {}
-        for direction in ['F', 'A']:
+        for direction in __directions:
+            stats[direction] = {}
             for score_type in score_settings:
-                col = score_type + '_' + direction
-                stats[col] = np.average(
-                    score_tables[team][col],
+                stats[direction][score_type] = np.average(
+                    score_tables[team][score_type + '_' + direction],
                     weights = score_tables[team]['weight']
                 )
         teams[team].stats = stats
+
+def get_opponent_stats(teams, score_settings, score_tables):
+    statmaps = {}
+    for direction in __directions:
+        statmaps[direction] = {}
+        for score_type in score_settings:
+            statmaps[direction][score_type] = {}
+            for team in teams:
+                statmaps[direction][score_type][team] = teams[team].stats[direction][score_type]
+
+    for team in score_tables:
+        for direction in __directions:
+            for score_type in score_settings:
+                score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[__compliment_direction(direction)][score_type])
+
+def get_residual_stats(teams, score_settings, score_tables):
+    for team in score_tables:
+        for direction in __directions:
+            for score_type in score_settings:
+                score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])] - score_tables[team]['_'.join(['OPP', score_type, __compliment_direction(direction)])]
+
+    for team in teams:
+        for direction in __directions:
+            for score_type in score_settings:
+                teams[team].stats[direction]['RES_' + score_type] = np.average(score_tables[team]['_'.join(['RES', score_type, direction])],
+                                                                               weights = score_tables[team]['weight'])

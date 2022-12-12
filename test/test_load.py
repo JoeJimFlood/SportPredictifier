@@ -13,9 +13,18 @@ score_settings = sp.load.score_settings(score_settings_file)
 score_tables = sp.load.score_tables(score_table_path)
 
 sp.load.get_team_stats(teams, score_settings, score_tables)
+sp.load.get_opponent_stats(teams, score_settings, score_tables)
+sp.load.get_residual_stats(teams, score_settings, score_tables)
 
 for team in teams:
     print(team, teams[team].name, teams[team].stadium.lat, teams[team].stadium.lon, teams[team].stadium.elev)
+    for score_type in score_settings:
+        print(score_type,
+              teams[team].stats['F'][score_type],
+              teams[team].stats['A'][score_type],
+              teams[team].stats['F']['RES_' + score_type],
+              teams[team].stats['A']['RES_' + score_type])
+    print('\n')
 
 for score in score_settings:
     print(score, score_settings[score].points)

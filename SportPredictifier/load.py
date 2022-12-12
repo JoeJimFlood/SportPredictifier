@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import yaml
 from collections import OrderedDict
 
 from .objects import *
@@ -43,11 +44,11 @@ def __load_table(object, df):
         output[row] = object(**df.loc[row])
     return output
 
-def stadia(fp):
+def __load_stadia(fp):
     stadium_table = pd.read_csv(fp)
     return __load_table(Stadium, stadium_table)
 
-def teams(fp, stadia):
+def __load_teams(fp, stadia):
     team_table = pd.read_csv(fp)
     __combine_colors(team_table, 'r1', 'g1', 'b1', 'color1')
     __combine_colors(team_table, 'r2', 'g2', 'b2', 'color2')
@@ -55,17 +56,17 @@ def teams(fp, stadia):
     
     return __load_table(Team, team_table)
 
-def score_settings(fp):
+def __load_score_settings(fp):
     score_settings_table = pd.read_csv(fp)
     return __load_table(ScoreSettings, score_settings_table)
 
-def score_tables(score_table_path):
+def __load_score_tables(score_table_path):
     score_tables = OrderedDict()
     for score_table_file in os.listdir(score_table_path):
         score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
     return score_tables
 
-def get_team_stats(teams, score_settings, score_tables):
+def __get_team_stats(teams, score_settings, score_tables):
     assert all(team in score_tables for team in teams), "All teams must have a score table"
     for team in teams:
         stats = {}
@@ -78,7 +79,7 @@ def get_team_stats(teams, score_settings, score_tables):
                 )
         teams[team].stats = stats
 
-def get_opponent_stats(teams, score_settings, score_tables):
+def __get_opponent_stats(teams, score_settings, score_tables):
     statmaps = {}
     for direction in __directions:
         statmaps[direction] = {}
@@ -92,7 +93,7 @@ def get_opponent_stats(teams, score_settings, score_tables):
             for score_type in score_settings:
                 score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[__compliment_direction(direction)][score_type])
 
-def get_residual_stats(teams, score_settings, score_tables):
+def __get_residual_stats(teams, score_settings, score_tables):
     for team in score_tables:
         for direction in __directions:
             for score_type in score_settings:
@@ -103,3 +104,21 @@ def get_residual_stats(teams, score_settings, score_tables):
             for score_type in score_settings:
                 teams[team].stats[direction]['RES_' + score_type] = np.average(score_tables[team]['_'.join(['RES', score_type, direction])],
                                                                                weights = score_tables[team]['weight'])
+
+def settings(settings_file):
+    with open(settings_file, 'r') as f:
+        data = yaml.safe_load(f)
+        f.close()
+    return data
+
+def data(settings):
+    stadia = __load_stadia(settings['stadia_file'])
+    teams = __load_teams(settings['teams_file'], stadia)
+    score_settings = __load_score_settings(settings['score_settings_file'])
+    score_tables = __load_score_tables(settings['score_table_path'])
+
+    __get_team_stats(teams, score_settings, score_tables)
+    __get_opponent_stats(teams, score_settings, score_tables)
+    __get_residual_stats(teams, score_settings, score_tables)
+
+    return stadia, teams, score_settings

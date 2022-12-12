@@ -1,0 +1,4 @@
+stadia_file: stadia.csv
+teams_file: teams.csv
+score_settings_file: scoring.csv
+score_table_path: ScoreTables

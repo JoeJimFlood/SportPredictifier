@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 import yaml
-from collections import OrderedDict
 
 from .objects import *
 
@@ -38,7 +37,7 @@ def __load_table(object, df):
     """
     Reads table from data frame into dictionary of objects
     """
-    output = OrderedDict()
+    output = ObjectCollection()
     df.index = df["code"]
     for row in df.index:
         output[row] = object(**df.loc[row])
@@ -61,7 +60,7 @@ def __load_score_settings(fp):
     return __load_table(ScoreSettings, score_settings_table)
 
 def __load_score_tables(score_table_path):
-    score_tables = OrderedDict()
+    score_tables = ObjectCollection()
     for score_table_file in os.listdir(score_table_path):
         score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
     return score_tables

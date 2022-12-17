@@ -25,3 +25,5 @@ class Team:
 
         self.stats = {}
         self.residual_stats = {}
+
+        self.opp = None

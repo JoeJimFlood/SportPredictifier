@@ -18,6 +18,7 @@ base_path = os.path.dirname(__file__)
 settings_file = os.path.join(base_path, 'settings.yaml')
 settings = sp.load.settings(settings_file)
 (stadia, teams, score_settings) = sp.load.data(settings)
+schedule = sp.load.schedule(settings, teams, stadia, score_settings)
 
 for team in teams:
     print(team, teams[team].name, teams[team].stadium.lat, teams[team].stadium.lon, teams[team].stadium.elev)
@@ -32,4 +33,10 @@ for team in teams:
 for score in score_settings:
     print(score, score_settings[score].points)
 
+for game in schedule.values():
+    print('Week {} on {} at {} between {} and {}'.format(game.round_number,
+                                                         game.date.strftime('%D'),
+                                                         game.venue.name,
+                                                         game.team1.name,
+                                                         game.team2.name))
 #print(score_tables.keys())

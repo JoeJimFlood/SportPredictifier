@@ -4,7 +4,7 @@ import os
 import yaml
 
 from .objects import *
-import util
+from .util import *
 
 def __int2hex(n):
     n = hex(n)
@@ -29,9 +29,11 @@ def __load_table(object, df):
     Reads table from data frame into dictionary of objects
     """
     output = ObjectCollection()
-    df.index = df["code"]
     for row in df.index:
-        output[row] = object(**df.loc[row])
+        if 'code' in df.columns:
+            output[df.loc[row, 'code']] = object(**df.loc[row])
+        else:
+            output[row] = object(**df.loc[row])
     return output
 
 def __load_stadia(fp):
@@ -60,7 +62,7 @@ def __get_team_stats(teams, score_settings, score_tables):
     assert all(team in score_tables for team in teams), "All teams must have a score table"
     for team in teams:
         stats = {}
-        for direction in util.directions:
+        for direction in directions:
             stats[direction] = {}
             for score_type in score_settings:
                 stats[direction][score_type] = np.average(
@@ -71,7 +73,7 @@ def __get_team_stats(teams, score_settings, score_tables):
 
 def __get_opponent_stats(teams, score_settings, score_tables):
     statmaps = {}
-    for direction in util.directions:
+    for direction in directions:
         statmaps[direction] = {}
         for score_type in score_settings:
             statmaps[direction][score_type] = {}
@@ -79,18 +81,18 @@ def __get_opponent_stats(teams, score_settings, score_tables):
                 statmaps[direction][score_type][team] = teams[team].stats[direction][score_type]
 
     for team in score_tables:
-        for direction in util.directions:
+        for direction in directions:
             for score_type in score_settings:
-                score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[util.compliment_direction(direction)][score_type])
+                score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[compliment_direction(direction)][score_type])
 
 def __get_residual_stats(teams, score_settings, score_tables):
     for team in score_tables:
-        for direction in util.directions:
+        for direction in directions:
             for score_type in score_settings:
-                score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])] - score_tables[team]['_'.join(['OPP', score_type, util.compliment_direction(direction)])]
+                score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])] - score_tables[team]['_'.join(['OPP', score_type, compliment_direction(direction)])]
 
     for team in teams:
-        for direction in util.directions:
+        for direction in directions:
             for score_type in score_settings:
                 teams[team].stats[direction]['RES_' + score_type] = np.average(score_tables[team]['_'.join(['RES', score_type, direction])],
                                                                                weights = score_tables[team]['weight'])
@@ -112,3 +114,15 @@ def data(settings):
     __get_residual_stats(teams, score_settings, score_tables)
 
     return stadia, teams, score_settings
+
+def schedule(settings, teams, stadia, score_settings):
+    schedule_table = pd.read_csv(settings['schedule_file'])
+    schedule_table['date'] = pd.to_datetime(schedule_table[["year", "month", "day"]])
+    schedule_table['score_settings'] = schedule_table.shape[0]*[score_settings]
+    del schedule_table['year'], schedule_table['month'], schedule_table['day']
+
+    schedule_table['team1'] = schedule_table['team1'].map(teams)
+    schedule_table['team2'] = schedule_table['team2'].map(teams)
+    schedule_table['venue'] = schedule_table['venue'].map(stadia)
+
+    return __load_table(Game, schedule_table)

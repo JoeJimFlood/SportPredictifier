@@ -1,5 +1,6 @@
 import threading
-from numpy import average
+import pandas as pd
+import numpy as np
 
 N_SIMULATIONS = 5000000
 
@@ -42,7 +43,20 @@ class Game(threading.Thread):
         for score_type in self.score_settings:
             for team in [self.team1, self.team2]:
                 if self.score_settings[score_type].opp_effect:       
-                    self.expected_scores[team.code] = average([team.stats['F']['RES_' + score_type] + team.opp.stats['A'][score_type],
-                                                               team.stats['A']['RES_' + score_type] + team.opp.stats['F'][score_type]])
+                    self.expected_scores[team.code] = np.average([team.stats['F']['RES_' + score_type] + team.opp.stats['A'][score_type],
+                                                                  team.stats['A']['RES_' + score_type] + team.opp.stats['F'][score_type]])
                 else:
                     self.expected_scores[team.code] = team.stats['F'][score_type]
+
+    def run(self):
+        '''
+        Runs the simulation of the game
+        '''
+        team_1_results = pd.DataFrame(
+            np.zeros(
+                (N_SIMULATIONS, len(self.score_settings))
+            ),
+            columns = self.score_settings.keys()
+        )
+        team_2_results = team_1_results.copy()
+

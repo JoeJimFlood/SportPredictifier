@@ -115,8 +115,12 @@ def data(settings):
 
     return stadia, teams, score_settings
 
-def schedule(settings, teams, stadia, score_settings):
-    schedule_table = pd.read_csv(settings['schedule_file'])
+def schedule(settings, teams, stadia, score_settings, round_number = None):
+    if round_number is None:
+        schedule_table = pd.read_csv(settings['schedule_file'])
+    else:
+        schedule_table = pd.read_csv(settings['schedule_file']).query('round_number == @round_number')
+
     schedule_table['date'] = pd.to_datetime(schedule_table[["year", "month", "day"]])
     schedule_table['score_settings'] = schedule_table.shape[0]*[score_settings]
     del schedule_table['year'], schedule_table['month'], schedule_table['day']

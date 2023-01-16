@@ -69,4 +69,4 @@ class Game(threading.Thread):
         #    if self.score_types[score_type].prob:
         #        pass
         #    else:
-        #        pass        
+        #        team_1_results['score_type'] =       

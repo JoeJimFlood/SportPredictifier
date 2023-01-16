@@ -52,11 +52,21 @@ class Game(threading.Thread):
         '''
         Runs the simulation of the game
         '''
-        team_1_results = pd.DataFrame(
-            np.zeros(
-                (N_SIMULATIONS, len(self.score_settings))
-            ),
-            columns = self.score_settings.keys()
-        )
-        team_2_results = team_1_results.copy()
+        print('Simulating game on {} in round {} between {} and {} at {}'.format(self.date.strftime('%D'),
+                                                                                 self.round_number,
+                                                                                 self.team1.name,
+                                                                                 self.team2.name,
+                                                                                 self.venue.name))
+        #team_1_results = pd.DataFrame(
+        #    np.zeros(
+        #        (N_SIMULATIONS, len(self.score_settings))
+        #    ),
+        #    columns = self.score_settings.keys()
+        #)
+        #team_2_results = team_1_results.copy()
 
+        #for score_type in self.score_types:
+        #    if self.score_types[score_type].prob:
+        #        pass
+        #    else:
+        #        pass        

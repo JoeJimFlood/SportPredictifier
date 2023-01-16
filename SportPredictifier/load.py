@@ -24,16 +24,22 @@ def __combine_colors(df, r, g, b, out_field, cleanup = True):
         del df[g]
         del df[b]
 
-def __load_table(object, df):
+def __load_table(object, df, multithreaded = False):
     """
     Reads table from data frame into dictionary of objects
     """
-    output = ObjectCollection()
-    for row in df.index:
-        if 'code' in df.columns:
-            output[df.loc[row, 'code']] = object(**df.loc[row])
-        else:
-            output[row] = object(**df.loc[row])
+    if multithreaded:
+        output = []
+        for row in df.index:
+            output.append(object(**df.loc[row]))
+            output[-1].start()
+    else:
+        output = ObjectCollection()
+        for row in df.index:
+            if 'code' in df.columns:
+                output[df.loc[row, 'code']] = object(**df.loc[row])
+            else:
+                output[row] = object(**df.loc[row])
     return output
 
 def __load_stadia(fp):
@@ -115,7 +121,7 @@ def data(settings):
 
     return stadia, teams, score_settings
 
-def schedule(settings, teams, stadia, score_settings, round_number = None):
+def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False):
     if round_number is None:
         schedule_table = pd.read_csv(settings['schedule_file'])
     else:
@@ -129,4 +135,4 @@ def schedule(settings, teams, stadia, score_settings, round_number = None):
     schedule_table['team2'] = schedule_table['team2'].map(teams)
     schedule_table['venue'] = schedule_table['venue'].map(stadia)
 
-    return __load_table(Game, schedule_table)
+    return __load_table(Game, schedule_table, multithreaded)

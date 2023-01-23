@@ -39,4 +39,3 @@ for game in schedule.values():
                                                          game.venue.name,
                                                          game.team1.name,
                                                          game.team2.name))
-#print(score_tables.keys())

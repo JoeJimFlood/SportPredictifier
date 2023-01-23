@@ -2,6 +2,8 @@ import threading
 import pandas as pd
 import numpy as np
 
+from ..util import *
+
 N_SIMULATIONS = 5000000
 
 class Game(threading.Thread):
@@ -42,11 +44,23 @@ class Game(threading.Thread):
     def __get_expected_scores(self):
         for score_type in self.score_settings:
             for team in [self.team1, self.team2]:
-                if self.score_settings[score_type].opp_effect:       
-                    self.expected_scores[team.code] = np.average([team.stats['F']['RES_' + score_type] + team.opp.stats['A'][score_type],
-                                                                  team.stats['A']['RES_' + score_type] + team.opp.stats['F'][score_type]])
+                if self.score_settings[score_type].prob:
+                    if self.score_settings[score_type].opp_effect:
+                        self.expected_scores[team.code][score_type] = np.average([team.stats['F']['RES_' + score_type] + team.opp.stats['A'][score_type],
+                                                                                  team.stats['A']['RES_' + score_type] + team.opp.stats['F'][score_type]])
+                    else:
+                        self.expected_scores[team.code][score_type] = team.stats['F'][score_type]
+
+                    self.expected_scores[team.code][score_type] = cap_probability(self.expected_scores[team.code][score_type])
+
                 else:
-                    self.expected_scores[team.code] = team.stats['F'][score_type]
+                    if self.score_settings[score_type].opp_effect:
+                        self.expected_scores[team.code][score_type] = (np.average([team.stats['F']['RES_' + score_type][0] + team.opp.stats['A'][score_type],
+                                                                                   team.stats['A']['RES_' + score_type][0] + team.opp.stats['F'][score_type]]),
+                                                                       0.25*(team.stats['F']['RES_' + score_type][1] + team.opp.stats['A']['RES_' + score_type][1])
+                        )
+                    else:
+                        self.expected_scores[team.code][score_type] = (team.stats['F'][score_type][0], team.stats['F'][score_type][1])
 
     def run(self):
         '''

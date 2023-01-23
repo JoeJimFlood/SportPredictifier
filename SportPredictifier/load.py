@@ -6,6 +6,13 @@ import yaml
 from .objects import *
 from .util import *
 
+def __weighted_variance(data, weights):
+    assert len(data) == len(weights), 'Data and weights must be same length'
+    weighted_average = np.average(data, weights = weights)
+    v1 = weights.sum()
+    v2 = np.square(weights).sum()
+    return (weights*np.square(data - weighted_average)).sum() / (v1 - (v2/v1))
+
 def __int2hex(n):
     n = hex(n)
     return (4-len(n))*'0' + n[2:]
@@ -71,10 +78,29 @@ def __get_team_stats(teams, score_settings, score_tables):
         for direction in directions:
             stats[direction] = {}
             for score_type in score_settings:
-                stats[direction][score_type] = np.average(
-                    score_tables[team][score_type + '_' + direction],
-                    weights = score_tables[team]['weight']
-                )
+                if score_settings[score_type].prob:
+                    condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
+                    if score_tables[team].eval(condition).sum() == 0:
+                        stats[direction][score_type] = score_settings[score_type].base
+                    else:
+                        stats[direction][score_type] = (score_tables[team][score_type + '_' + direction]*score_tables[team]['weight']).sum() / (score_tables[team].eval(condition)*score_tables[team]['weight']).sum()
+                        
+                else:
+                    if score_settings[score_type].opp_effect:
+                        stats[direction][score_type] = np.average(
+                            score_tables[team][score_type + '_' + direction],
+                            weights = score_tables[team]['weight']
+                        )
+                    else: # Calculating the weighted variance here since no residual stats will be relevant if opp_effect is False
+                        stats[direction][score_type] = (np.average(
+                            score_tables[team][score_type + '_' + direction],
+                            weights = score_tables[team]['weight']
+                        ),
+                                                        __weighted_variance(
+                            score_tables[team][score_type + '_' + direction],
+                            weights = score_tables[team]['weight']
+                            ))
+                    
         teams[team].stats = stats
 
 def __get_opponent_stats(teams, score_settings, score_tables):
@@ -92,16 +118,42 @@ def __get_opponent_stats(teams, score_settings, score_tables):
                 score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[compliment_direction(direction)][score_type])
 
 def __get_residual_stats(teams, score_settings, score_tables):
+    import pdb
     for team in score_tables:
         for direction in directions:
             for score_type in score_settings:
-                score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])] - score_tables[team]['_'.join(['OPP', score_type, compliment_direction(direction)])]
+                if score_settings[score_type].prob:
+                    condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
+                    score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])]/score_tables[team].eval(condition) - score_tables[team]['_'.join(['OPP', score_type, compliment_direction(direction)])]
+                else:
+                    score_tables[team]['_'.join(['RES', score_type, direction])] = score_tables[team]['_'.join([score_type, direction])] - score_tables[team]['_'.join(['OPP', score_type, compliment_direction(direction)])]
 
     for team in teams:
         for direction in directions:
             for score_type in score_settings:
-                teams[team].stats[direction]['RES_' + score_type] = np.average(score_tables[team]['_'.join(['RES', score_type, direction])],
-                                                                               weights = score_tables[team]['weight'])
+                if score_settings[score_type].prob:
+                    condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
+                    try:
+                        values = score_tables[team]['_'.join(['RES', score_type, direction])].values
+                        weights = (score_tables[team].eval(condition) * score_tables[team]['weight'])
+                        to_use = ~np.isnan(values)
+                        teams[team].stats[direction]['RES_' + score_type] = np.average(
+                            values[to_use],
+                            weights = weights[to_use]
+                            )
+                    except ZeroDivisionError:
+                        teams[team].stats[direction]['RES_' + score_type] = 0
+                else:
+                    teams[team].stats[direction]['RES_' + score_type] = (
+                        np.average(
+                            score_tables[team]['_'.join(['RES', score_type, direction])],
+                            weights = score_tables[team]['weight']
+                            ),
+                        __weighted_variance(
+                            score_tables[team]['_'.join(['RES', score_type, direction])],
+                            weights = score_tables[team]['weight']
+                            )
+                    )
 
 def settings(settings_file):
     with open(settings_file, 'r') as f:

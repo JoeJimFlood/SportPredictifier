@@ -187,4 +187,6 @@ def schedule(settings, teams, stadia, score_settings, round_number = None, multi
     schedule_table['team2'] = schedule_table['team2'].map(teams)
     schedule_table['venue'] = schedule_table['venue'].map(stadia)
 
+    #schedule_table['result_dict'] = result_dict
+
     return __load_table(Game, schedule_table, multithreaded)

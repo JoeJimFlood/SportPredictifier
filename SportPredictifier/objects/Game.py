@@ -3,12 +3,13 @@ import pandas as pd
 import numpy as np
 
 from ..util import *
+from ..simulate import simulate_game
 
-N_SIMULATIONS = 5000000
+N_SIMULATIONS = 5000000 #TODO: Add to settings
 
 class Game(threading.Thread):
 
-    def __init__(self, round_number, date, team1, team2, venue, score_settings):
+    def __init__(self, round_number, date, team1, team2, venue, score_settings):#, result_dict):
         '''
         Game object!
 
@@ -34,6 +35,7 @@ class Game(threading.Thread):
         self.expected_scores = {team1.code: {},
                                 team2.code: {}
         }
+        #self.result_dict = result_dict
 
         #Set oppponents for each team
         self.team1.opp = team2
@@ -71,16 +73,7 @@ class Game(threading.Thread):
                                                                                  self.team1.name,
                                                                                  self.team2.name,
                                                                                  self.venue.name))
-        #team_1_results = pd.DataFrame(
-        #    np.zeros(
-        #        (N_SIMULATIONS, len(self.score_settings))
-        #    ),
-        #    columns = self.score_settings.keys()
-        #)
-        #team_2_results = team_1_results.copy()
 
-        #for score_type in self.score_types:
-        #    if self.score_types[score_type].prob:
-        #        pass
-        #    else:
-        #        team_1_results['score_type'] =       
+        #self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = 
+        results = simulate_game(N_SIMULATIONS, self.expected_scores, self.score_settings)
+        print(results)

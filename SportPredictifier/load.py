@@ -31,14 +31,14 @@ def __combine_colors(df, r, g, b, out_field, cleanup = True):
         del df[g]
         del df[b]
 
-def __load_table(object, df, multithreaded = False):
+def __load_table(object, df, multithreaded = False, result_dict = None):
     """
     Reads table from data frame into dictionary of objects
     """
     if multithreaded:
         output = []
         for row in df.index:
-            output.append(object(**df.loc[row]))
+            output.append(object(result_dict, **df.loc[row]))
             output[-1].start()
     else:
         output = ObjectCollection()
@@ -173,7 +173,7 @@ def data(settings):
 
     return stadia, teams, score_settings
 
-def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False):
+def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False, result_dict = None):
     if round_number is None:
         schedule_table = pd.read_csv(settings['schedule_file'])
     else:
@@ -189,4 +189,4 @@ def schedule(settings, teams, stadia, score_settings, round_number = None, multi
 
     #schedule_table['result_dict'] = result_dict
 
-    return __load_table(Game, schedule_table, multithreaded)
+    return __load_table(Game, schedule_table, multithreaded, result_dict)

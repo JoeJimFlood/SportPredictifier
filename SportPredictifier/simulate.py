@@ -97,7 +97,7 @@ def __eval_results(scores, knockout = False):
 #    team_2_bp = ((diff > 0)*(diff <= req_diff)).astype(int)
 #    return team_1_bp, team_2_bp
 
-def simulate_game(n_simulations, expected_scores, score_settings):
+def simulate_game(n_simulations, expected_scores, score_settings, knockout):
     '''
     Simulate a game
     '''
@@ -132,6 +132,10 @@ def simulate_game(n_simulations, expected_scores, score_settings):
                                          score_settings.extract_attribute('points'))
 
     (team1_wins, team2_wins, draws) = __eval_results(scores)
+
+    if knockout:
+        team1_wins += 0.5*draws
+        team2_wins += 0.5*draws
 
     results = {}
     results['chances'] = {scores.columns[0]: team1_wins.mean(),

@@ -9,7 +9,7 @@ N_SIMULATIONS = 5000000 #TODO: Add to settings
 
 class Game(threading.Thread):
 
-    def __init__(self, round_number, date, team1, team2, venue, score_settings):#, result_dict):
+    def __init__(self, round_number, date, team1, team2, venue, knockout, score_settings):#, result_dict):
         '''
         Game object!
 
@@ -32,6 +32,7 @@ class Game(threading.Thread):
         self.team2 = team2
         self.venue = venue
         self.score_settings = score_settings
+        self.knockout = knockout
         self.expected_scores = {team1.code: {},
                                 team2.code: {}
         }
@@ -75,5 +76,5 @@ class Game(threading.Thread):
                                                                                  self.venue.name))
 
         #self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = 
-        results = simulate_game(N_SIMULATIONS, self.expected_scores, self.score_settings)
+        results = simulate_game(N_SIMULATIONS, self.expected_scores, self.score_settings, self.knockout)
         print(results)

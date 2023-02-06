@@ -3,3 +3,4 @@ teams_file: teams.csv
 score_settings_file: scoring.csv
 schedule_file: schedule.csv
 score_table_path: ScoreTables
+use_spatial_weights: True

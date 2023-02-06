@@ -6,6 +6,8 @@ import yaml
 from .objects import *
 from .util import *
 
+from .weighting.spatial import get_spatial_weight
+
 def __weighted_variance(data, weights):
     assert len(data) == len(weights), 'Data and weights must be same length'
     weighted_average = np.average(data, weights = weights)
@@ -66,44 +68,70 @@ def __load_score_settings(fp):
     return __load_table(ScoreSettings, score_settings_table)
 
 def __load_score_tables(score_table_path):
+    '''
+    score_table_path (str):
+        Directory with score tables
+    '''
     score_tables = ObjectCollection()
     for score_table_file in os.listdir(score_table_path):
+        if not score_table_file.endswith('.csv'):
+            continue
         score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
     return score_tables
 
-def __get_team_stats(teams, score_settings, score_tables):
+def __calculate_spatial_weights(score_tables, teams, stadia):
+    for team in score_tables:
+        for stadium in stadia:
+            def __get_stadium_specific_weight(location):
+                return get_spatial_weight(stadia[location], teams[team].stadium, stadia[stadium])
+            score_tables[team]['spatial_weight_{}'.format(stadium)] = score_tables[team]['VENUE'].apply(__get_stadium_specific_weight)
+
+def __calculate_stat(stats, team, direction, score_settings, score_type, score_tables, reference_location = None):
+
+    if reference_location is not None:
+        weights = score_tables[team]['spatial_weight_{}'.format(reference_location)]
+    else:
+        weights = score_tables[team]['weight']
+
+    if score_settings[score_type].prob:
+        condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
+        if score_tables[team].eval(condition).sum() == 0:
+            stats[direction][score_type] = score_settings[score_type].base
+        else:
+            stats[direction][score_type] = (score_tables[team][score_type + '_' + direction]*score_tables[team]['weight']).sum() / (score_tables[team].eval(condition)*score_tables[team]['weight']).sum()
+                        
+    else:
+        if score_settings[score_type].opp_effect:
+            stats[direction][score_type] = np.average(
+                score_tables[team][score_type + '_' + direction],
+                weights = weights
+            )
+        else: # Calculating the weighted variance here since no residual stats will be relevant if opp_effect is False
+            stats[direction][score_type] = (np.average(
+                score_tables[team][score_type + '_' + direction],
+                weights = weights
+            ),
+                                            __weighted_variance(
+                score_tables[team][score_type + '_' + direction],
+                weights = weights
+                ))
+
+def __get_team_stats(teams, score_settings, score_tables, game_locations = None):
     assert all(team in score_tables for team in teams), "All teams must have a score table"
     for team in teams:
+
         stats = {}
         for direction in directions:
             stats[direction] = {}
             for score_type in score_settings:
-                if score_settings[score_type].prob:
-                    condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
-                    if score_tables[team].eval(condition).sum() == 0:
-                        stats[direction][score_type] = score_settings[score_type].base
-                    else:
-                        stats[direction][score_type] = (score_tables[team][score_type + '_' + direction]*score_tables[team]['weight']).sum() / (score_tables[team].eval(condition)*score_tables[team]['weight']).sum()
-                        
+                if game_locations is not None and team in game_locations: # Team is not playing if latter is False
+                    __calculate_stat(stats, team, direction, score_settings, score_type, score_tables, game_locations[team])
                 else:
-                    if score_settings[score_type].opp_effect:
-                        stats[direction][score_type] = np.average(
-                            score_tables[team][score_type + '_' + direction],
-                            weights = score_tables[team]['weight']
-                        )
-                    else: # Calculating the weighted variance here since no residual stats will be relevant if opp_effect is False
-                        stats[direction][score_type] = (np.average(
-                            score_tables[team][score_type + '_' + direction],
-                            weights = score_tables[team]['weight']
-                        ),
-                                                        __weighted_variance(
-                            score_tables[team][score_type + '_' + direction],
-                            weights = score_tables[team]['weight']
-                            ))
-                    
+                    __calculate_stat(stats, team, direction, score_settings, score_type, score_tables)
+ 
         teams[team].stats = stats
 
-def __get_opponent_stats(teams, score_settings, score_tables):
+def __get_opponent_stats(teams, score_settings, score_tables, use_spatial_weights = False):
     statmaps = {}
     for direction in directions:
         statmaps[direction] = {}
@@ -115,10 +143,17 @@ def __get_opponent_stats(teams, score_settings, score_tables):
     for team in score_tables:
         for direction in directions:
             for score_type in score_settings:
-                score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[compliment_direction(direction)][score_type])
+                if use_spatial_weights:
+                    def __get_opponent_stat(opponent):
+                        stats = {direction: {}}
+                        venue = score_tables[team].query('OPP == @opponent').iloc[0]['VENUE']
+                        __calculate_stat(stats, opponent, direction, score_settings, score_type, score_tables, venue)
+                        return stats[direction][score_type]
+                    score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].apply(__get_opponent_stat)
+                else:
+                    score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[direction][score_type])
 
 def __get_residual_stats(teams, score_settings, score_tables):
-    import pdb
     for team in score_tables:
         for direction in directions:
             for score_type in score_settings:
@@ -161,14 +196,27 @@ def settings(settings_file):
         f.close()
     return data
 
-def data(settings):
+def data(settings, round_number = None):
     stadia = __load_stadia(settings['stadia_file'])
     teams = __load_teams(settings['teams_file'], stadia)
     score_settings = __load_score_settings(settings['score_settings_file'])
     score_tables = __load_score_tables(settings['score_table_path'])
 
-    __get_team_stats(teams, score_settings, score_tables)
-    __get_opponent_stats(teams, score_settings, score_tables)
+    if settings['use_spatial_weights']:
+        assert round_number is not None, "A round number is needed if calculating travel weights"
+        schedule = pd.read_csv(settings['schedule_file'])
+        game_locations = {}
+        for _, row in schedule.iterrows():
+            game_locations[row['team1']] = row['venue']
+            game_locations[row['team2']] = row['venue']
+        __calculate_spatial_weights(score_tables, teams, stadia)
+        __get_team_stats(teams, score_settings, score_tables, game_locations)
+        __get_opponent_stats(teams, score_settings, score_tables, True)
+
+    else:
+        __get_team_stats(teams, score_settings, score_tables)
+        __get_opponent_stats(teams, score_settings, score_tables)
+
     __get_residual_stats(teams, score_settings, score_tables)
 
     return stadia, teams, score_settings

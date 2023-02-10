@@ -19,6 +19,9 @@ for game in schedule:
 
 print(results)
 
+outfile = os.path.join(settings['output_directory'], 'forecasts.xlsx')
+sp.report.generate_report(outfile, teams, results)
+
 t1 = time.time()
 
 print('Done in {} seconds'.format(round(t1-t0, 1)))

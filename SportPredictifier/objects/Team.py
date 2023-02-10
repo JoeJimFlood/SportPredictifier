@@ -17,7 +17,7 @@ class Team:
         color2 (str):
             Hex codes for team's secondary color
         """
-        self.code = code
+        self.code = code.upper()
         self.name = name
         self.stadium = stadium
         self.color1 = color1

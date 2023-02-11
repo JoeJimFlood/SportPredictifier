@@ -50,7 +50,7 @@ class Game(threading.Thread):
                 if self.score_settings[score_type].prob:
                     if self.score_settings[score_type].opp_effect:
                         self.expected_scores[team.code][score_type] = np.average([team.stats['F']['RES_' + score_type] + team.opp.stats['A'][score_type],
-                                                                                  team.stats['A']['RES_' + score_type] + team.opp.stats['F'][score_type]])
+                                                                                  team.opp.stats['A']['RES_' + score_type] + team.stats['F'][score_type]])
                     else:
                         self.expected_scores[team.code][score_type] = team.stats['F'][score_type]
 
@@ -59,7 +59,7 @@ class Game(threading.Thread):
                 else:
                     if self.score_settings[score_type].opp_effect:
                         self.expected_scores[team.code][score_type] = (np.average([team.stats['F']['RES_' + score_type][0] + team.opp.stats['A'][score_type],
-                                                                                   team.stats['A']['RES_' + score_type][0] + team.opp.stats['F'][score_type]]),
+                                                                                   team.opp.stats['A']['RES_' + score_type][0] + team.stats['F'][score_type]]),
                                                                        0.25*(team.stats['F']['RES_' + score_type][1] + team.opp.stats['A']['RES_' + score_type][1])
                         )
                     else:

@@ -67,7 +67,7 @@ def __load_score_settings(fp):
     score_settings_table = pd.read_csv(fp)
     return __load_table(ScoreSettings, score_settings_table)
 
-def __load_score_tables(score_table_path):
+def __load_score_tables(score_table_path, query = None):
     '''
     score_table_path (str):
         Directory with score tables
@@ -76,7 +76,10 @@ def __load_score_tables(score_table_path):
     for score_table_file in os.listdir(score_table_path):
         if not score_table_file.endswith('.csv'):
             continue
-        score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
+        if query is None:
+            score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
+        else:
+            score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file)).query(query)
     return score_tables
 
 def __calculate_spatial_weights(score_tables, teams, stadia):
@@ -196,11 +199,11 @@ def settings(settings_file):
         f.close()
     return data
 
-def data(settings, round_number = None):
+def data(settings, round_number = None, score_table_query = None):
     stadia = __load_stadia(settings['stadia_file'])
     teams = __load_teams(settings['teams_file'], stadia)
     score_settings = __load_score_settings(settings['score_settings_file'])
-    score_tables = __load_score_tables(settings['score_table_path'])
+    score_tables = __load_score_tables(settings['score_table_path'], score_table_query)
 
     if settings['use_spatial_weights']:
         assert round_number is not None, "A round number is needed if calculating travel weights"

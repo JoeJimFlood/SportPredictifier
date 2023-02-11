@@ -1,0 +1,6 @@
+round_number,year,month,day,team1,team2,venue,knockout
+1,2022,6,11,ATL,RUNY,ATL,TRUE
+1,2022,6,12,SEA,SD,SEA,TRUE
+2,2022,6,18,HOU,SEA,HOU,TRUE
+2,2022,6,19,NE,RUNY,NE,TRUE
+3,2022,6,25,RUNY,SEA,HAR,TRUE

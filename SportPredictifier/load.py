@@ -199,28 +199,29 @@ def settings(settings_file):
         f.close()
     return data
 
-def data(settings, round_number = None, score_table_query = None):
+def data(settings, round_number = None, score_table_query = None, initializing_season = False):
     stadia = __load_stadia(settings['stadia_file'])
     teams = __load_teams(settings['teams_file'], stadia)
     score_settings = __load_score_settings(settings['score_settings_file'])
     score_tables = __load_score_tables(settings['score_table_path'], score_table_query)
 
-    if settings['use_spatial_weights']:
-        assert round_number is not None, "A round number is needed if calculating travel weights"
-        schedule = pd.read_csv(settings['schedule_file'])
-        game_locations = {}
-        for _, row in schedule.iterrows():
-            game_locations[row['team1']] = row['venue']
-            game_locations[row['team2']] = row['venue']
-        __calculate_spatial_weights(score_tables, teams, stadia)
-        __get_team_stats(teams, score_settings, score_tables, game_locations)
-        __get_opponent_stats(teams, score_settings, score_tables, True)
+    if not initializing_season:
+        if settings['use_spatial_weights']:
+            assert round_number is not None, "A round number is needed if calculating travel weights"
+            schedule = pd.read_csv(settings['schedule_file'])
+            game_locations = {}
+            for _, row in schedule.iterrows():
+                game_locations[row['team1']] = row['venue']
+                game_locations[row['team2']] = row['venue']
+            __calculate_spatial_weights(score_tables, teams, stadia)
+            __get_team_stats(teams, score_settings, score_tables, game_locations)
+            __get_opponent_stats(teams, score_settings, score_tables, True)
 
-    else:
-        __get_team_stats(teams, score_settings, score_tables)
-        __get_opponent_stats(teams, score_settings, score_tables)
+        else:
+            __get_team_stats(teams, score_settings, score_tables)
+            __get_opponent_stats(teams, score_settings, score_tables)
 
-    __get_residual_stats(teams, score_settings, score_tables)
+        __get_residual_stats(teams, score_settings, score_tables)
 
     return stadia, teams, score_settings
 

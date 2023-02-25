@@ -1,5 +1,5 @@
 ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
-1,DAL,DAL,,,,,,,,,
+1,DAL,DAL,5,4,0,0,2,1,0,0,1
 2,NOLA,HOU,,,,,,,,,
 3,SD,HOU,,,,,,,,,
 4,SEA,SEA,,,,,,,,,

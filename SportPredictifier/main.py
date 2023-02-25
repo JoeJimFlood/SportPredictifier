@@ -24,6 +24,6 @@ def predictify(round_number):
 
 def main():
     if sys.argv[1] == 'initiliaze_season':
-        intitalize_season()
+        initialize_season()
     elif sys.argv[1] == 'predictify':
         predictify(int(sys.argv[2]))

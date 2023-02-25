@@ -1,3 +1,4 @@
+import sys
 import os
 from .load import *
 from .report import generate_report
@@ -22,4 +23,7 @@ def predictify(round_number):
     generate_report(outfile, teams, results)
 
 def main():
-    pass
+    if sys.argv[1] == 'initiliaze_season':
+        intitalize_season()
+    elif sys.argv[1] == 'predictify':
+        predictify(int(sys.argv[2]))

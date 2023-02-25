@@ -1,4 +1,2 @@
-from main import main
-
-def main():
-    main()
+from .main import main
+main()

@@ -101,7 +101,8 @@ def simulate_game(n_simulations, expected_scores, score_settings, venue, knockou
     '''
     Simulate a game
     '''
-    scores = pd.DataFrame(np.empty((n_simulations, 2)),
+    scores = pd.DataFrame(np.empty((n_simulations, 2),
+                                   dtype = np.uint8),
                           columns = expected_scores.keys())
     #for team in expected_scores:
     score_matrix = __initialize_score_matrix(n_simulations,

@@ -1,0 +1,3 @@
+code,description,points,prob,opp_effect,base,condition
+G,Goal,6,FALSE,TRUE,,
+B,Behind,1,FALSE,TRUE,,

@@ -1,0 +1,19 @@
+code,name,stadium,r1,g1,b1,r2,g2,b2
+ADE,Adelaide Crows,ADE,11,34,64,255,210,0
+BL,Brisbane Lions,GAB,152,25,82,238,205,41
+CAR,Carlton Blues,DOC,2,26,49,255,255,255
+COL,Collingwood Magpies,MCG,0,0,0,255,255,255
+ESS,Essendon Bombers,DOC,0,0,0,204,32,49
+FRE,Fremantle Dockers,PER,45,22,83,255,255,255
+GEE,Geelong Cats,KAR,0,43,92,255,255,255
+GC,Gold Cost Suns,CRR,225,27,10,255,222,0
+GWS,Greter Western Sydney Giants,SSS,253,130,4,54,69,79
+HAW,Hawthorn Hawks,MCG,77,32,4,251,191,21
+MEL,Melbourne Demons,MCG,6,26,51,180,3,22
+NM,North Melbourne Kangaroos,DOC,47,84,165,255,255,255
+PA,Port Adelaide Power,ADE,0,0,0,0,139,173
+RIC,Richmond Tigers,MCG,0,0,0,254,209,2
+STK,St Kilda Saints,DOC,0,0,0,238,20,43
+SYD,Sydney Swans,SCG,237,23,31,255,255,255
+WC,West Coast Eagles,PER,0,48,135,242,169,0
+WB,Western Bulldogs,DOC,32,83,157,255,255,255

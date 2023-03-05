@@ -19,7 +19,7 @@ def predictify(round_number):
     for game in round_schedule:
         game.join()
 
-    outfile = os.path.join(season_settings['output_directory'], 'forecasts.xlsx')
+    outfile = os.path.join(season_settings['output_directory'], (season_settings['report_filename'] + '.xlsx').format(round_number))
     generate_report(outfile, teams, results)
 
 def main():

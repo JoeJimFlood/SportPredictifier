@@ -1,0 +1,2 @@
+[console_scripts]
+SportPredictifier = SportPredictifier:main

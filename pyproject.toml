@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SportPredictifier"
+authors = [
+    {name = "Joseph J. Flood", email = "joejimflood@gmail.com"},
+]
+description = "Package for prediciting sport games based on past results"
+readme = "README.md"
+keywords = ["sport", "simulation"]
+license = {text = "GNU GPLv3"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib"
+]
+dynamic = ["version"]

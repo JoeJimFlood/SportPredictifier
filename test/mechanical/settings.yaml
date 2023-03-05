@@ -1,8 +1,12 @@
+name: Mechanical Test
+round_name: Week
 stadia_file: stadia.csv
 teams_file: teams.csv
 score_settings_file: scoring.csv
 schedule_file: schedule.csv
 score_table_path: ScoreTables
+ranking_directory: ranking
 output_directory: forecasts
+ranking_filename: RankingsWeek{}
 report_filename: ReportWeek{}
 use_spatial_weights: True

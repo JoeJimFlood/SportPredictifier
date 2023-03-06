@@ -3,7 +3,7 @@ import os
 from .load import *
 from .report import generate_report
 from .ranking import rank
-from .util import create_score_tables
+from .util import create_score_tables, calculate_hype
 
 def initialize_season():
     print('Initializing Season')
@@ -31,6 +31,8 @@ def predictify(round_number):
 
     for game in round_schedule:
         game.join()
+
+    calculate_hype(season_settings, results, round_number)
 
     outfile = os.path.join(season_settings['output_directory'], (season_settings['report_filename'] + '.xlsx').format(round_number))
     generate_report(outfile, teams, results)

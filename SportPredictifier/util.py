@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import os
+from math import log2
+from scipy.stats import entropy
 
 directions = ['F', 'A']
 
@@ -64,3 +66,21 @@ def create_score_tables(settings, teams, stadia, score_settings):
 
     for team in teams:
         create_score_table(score_table_path, team, schedule, score_settings)
+
+def calculate_hype(season_settings, results, round_number):
+    rankings = pd.read_csv(
+        os.path.join(
+            season_settings["ranking_directory"],
+            season_settings["ranking_filename"] + '.csv').format(round_number),
+        index_col = 0
+        )
+
+    for result in results:
+        results[result]["quality"] = rankings["Quantile"].loc[results[result]["chances"].keys()].mean()
+        results[result]["entropy"] = entropy(
+            list(
+                results[result]["chances"].values()
+                ),
+            base = 2
+            )
+        results[result]["hype"] = 100*results[result]["quality"]*results[result]["entropy"]

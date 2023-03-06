@@ -24,7 +24,7 @@ def generate_report(fp, teams, results):
     sheet = book.add_worksheet("Forecasts") # TODO: Make configurable to put different games on different sheets
 
     # Write labels
-    sheet.write_string(1, 0, 'City', index_format)
+    sheet.write_string(1, 0, 'Location', index_format)
     sheet.write_string(2, 0, 'Quality', index_format)
     sheet.write_string(3, 0, 'Entropy', index_format)
     sheet.write_string(4, 0, 'Hype', index_format)
@@ -44,19 +44,11 @@ def generate_report(fp, teams, results):
         sheet.write_string(0, team1col, team1, team_formats[team1])
         sheet.write_string(0, team2col, team2, team_formats[team2])
         probwin = results[result]['chances']
-        team1win = probwin[team1]
-        team2win = probwin[team2]
-        draw = 1 - team1win - team2win
-
-        p1 = team1win/(1-draw)
-        p2 = team2win/(1-draw)
-        entropy = -p1*log2(p1) - p2*log2(p2)
-        #hype = 100*ranking_factor*entropy
 
         sheet.merge_range(1, team1col, 1, team2col, results[result]['venue'].location, merged_format)
-        #sheet.merge_range(2, team1col, 2, team2col, ranking_factor, merged_format2)
-        sheet.merge_range(3, team1col, 3, team2col, entropy, merged_format2)
-        #sheet.merge_range(4, team1col, 4, team2col, hype, merged_format)
+        sheet.merge_range(2, team1col, 2, team2col, results[result]["quality"], merged_format2)
+        sheet.merge_range(3, team1col, 3, team2col, results[result]["entropy"], merged_format2)
+        sheet.merge_range(4, team1col, 4, team2col, results[result]["hype"], merged_format)
 
         sheet.write_number(5, team1col, probwin[team1], percent_format)
         sheet.write_number(5, team2col, probwin[team2], percent_format)

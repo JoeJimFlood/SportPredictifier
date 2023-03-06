@@ -52,10 +52,12 @@ def __load_table(object, df, multithreaded = False, result_dict = None):
     return output
 
 def __load_stadia(fp):
+    print("Loading stadia")
     stadium_table = pd.read_csv(fp)
     return __load_table(Stadium, stadium_table)
 
 def __load_teams(fp, stadia):
+    print("Loading teams")
     team_table = pd.read_csv(fp)
     __combine_colors(team_table, 'r1', 'g1', 'b1', 'color1')
     __combine_colors(team_table, 'r2', 'g2', 'b2', 'color2')
@@ -64,6 +66,7 @@ def __load_teams(fp, stadia):
     return __load_table(Team, team_table)
 
 def __load_score_settings(fp):
+    print("Loading scoring settings")
     score_settings_table = pd.read_csv(fp)
     return __load_table(ScoreSettings, score_settings_table)
 
@@ -74,6 +77,7 @@ def __load_score_tables(score_table_path, query = None):
     '''
     score_tables = ObjectCollection()
     for score_table_file in os.listdir(score_table_path):
+        print("Loading score table for {}".format(score_table_file[:-4]))
         if not score_table_file.endswith('.csv'):
             continue
         if query is None:
@@ -83,6 +87,7 @@ def __load_score_tables(score_table_path, query = None):
     return score_tables
 
 def __calculate_spatial_weights(score_tables, teams, stadia):
+    print("Calculating spatial weights")
     for team in score_tables:
         for stadium in stadia:
             def __get_stadium_specific_weight(location):
@@ -120,6 +125,7 @@ def __calculate_stat(stats, team, direction, score_settings, score_type, score_t
                 ))
 
 def __get_team_stats(teams, score_settings, score_tables, game_locations = None):
+    print("Calculating team statistics")
     assert all(team in score_tables for team in teams), "All teams must have a score table"
     for team in teams:
 
@@ -135,6 +141,7 @@ def __get_team_stats(teams, score_settings, score_tables, game_locations = None)
         teams[team].stats = stats
 
 def __get_opponent_stats(teams, score_settings, score_tables, use_spatial_weights = False):
+    print("Calculating opponent statistics")
     statmaps = {}
     for direction in directions:
         statmaps[direction] = {}
@@ -157,6 +164,7 @@ def __get_opponent_stats(teams, score_settings, score_tables, use_spatial_weight
                     score_tables[team]['_'.join(['OPP', score_type, direction])] = score_tables[team]['OPP'].map(statmaps[direction][score_type])
 
 def __get_residual_stats(teams, score_settings, score_tables):
+    print("Calculating residual statistics")
     for team in score_tables:
         for direction in directions:
             for score_type in score_settings:
@@ -226,6 +234,7 @@ def data(settings, round_number = None, score_table_query = None, initializing_s
     return stadia, teams, score_settings
 
 def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False, result_dict = None):
+    print("Loading schedule")
     if round_number is None:
         schedule_table = pd.read_csv(settings['schedule_file'])
     else:

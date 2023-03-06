@@ -6,7 +6,7 @@ import xlsxwriter
 from math import log2
 
 def generate_report(fp, teams, results):
-    
+    print("Generating report")
     book = xlsxwriter.Workbook(fp)
 
     # Formatting

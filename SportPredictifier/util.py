@@ -68,6 +68,7 @@ def create_score_tables(settings, teams, stadia, score_settings):
         create_score_table(score_table_path, team, schedule, score_settings)
 
 def calculate_hype(season_settings, results, round_number):
+    print("Calculating hype for each game")
     rankings = pd.read_csv(
         os.path.join(
             season_settings["ranking_directory"],

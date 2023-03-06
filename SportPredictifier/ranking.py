@@ -3,7 +3,7 @@ import numpy as np
 import os
 from scipy.stats.distributions import norm
 
-def rank(score_table_path, ranking_filepath, score_settings):
+def rank(score_table_path, ranking_filepath, score_settings, round_number):
 
     pf = {}
     pa = {}
@@ -16,7 +16,7 @@ def rank(score_table_path, ranking_filepath, score_settings):
         score_types_a.append(score_type + '_A')
 
     for team in os.listdir(score_table_path):
-        data = pd.read_csv(os.path.join(score_table_path, team))
+        data = pd.read_csv(os.path.join(score_table_path, team)).query('ROUND < {}'.format(round_number))
         pf[team[:-4]] = np.dot(data[score_types_f], score_array).mean()
         pa[team[:-4]] = np.dot(data[score_types_a], score_array).mean()
 

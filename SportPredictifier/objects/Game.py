@@ -74,6 +74,7 @@ class Game(threading.Thread):
                                                                                  self.team1.name,
                                                                                  self.team2.name,
                                                                                  self.venue.name))
+        print(self.expected_scores)
 
         self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = simulate_game(N_SIMULATIONS, self.expected_scores, self.score_settings, self.venue, self.knockout)
         #print(results)

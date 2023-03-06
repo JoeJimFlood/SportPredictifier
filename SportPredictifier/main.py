@@ -14,7 +14,7 @@ def initialize_season():
 def predictify(round_number):
     season_settings = settings('settings.yaml')
     print('Predictifying {0} {1} {2}'.format(season_settings['name'], season_settings['round_name'], round_number))
-    (stadia, teams, score_settings) = data(season_settings, round_number)
+    (stadia, teams, score_settings) = data(season_settings, round_number, 'ROUND < {}'.format(round_number))
 
     print('Ranking teams')
     rank(
@@ -23,7 +23,8 @@ def predictify(round_number):
             season_settings['ranking_directory'],
             season_settings['ranking_filename'].format(round_number) + '.csv'
             ),
-        score_settings
+        score_settings,
+        round_number
         )
 
     results = {}

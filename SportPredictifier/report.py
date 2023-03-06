@@ -7,7 +7,7 @@ from math import log2
 
 def generate_report(fp, teams, results):
     print("Generating report")
-    book = xlsxwriter.Workbook(fp)
+    book = xlsxwriter.Workbook(fp, {'nan_inf_to_errors': True})
 
     # Formatting
     header_format = book.add_format({'align': 'center', 'bold': True, 'bottom': True})

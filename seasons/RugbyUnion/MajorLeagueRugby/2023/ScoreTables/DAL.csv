@@ -3,7 +3,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 2,UTAH,UTAH,5,0,0,0,5,4,0,0,1
 3,SEA,DAL,1,1,1,0,5,5,0,0,1
 4,SD,SD,0,0,0,0,3,2,1,0,1
-5,CHI,CHI,,,,,,,,,
+5,CHI,CHI,4,1,0,0,3,0,3,0,1
 6,NE,NE,,,,,,,,,
 7,TOR,DAL,,,,,,,,,
 9,HOU,HOU,,,,,,,,,

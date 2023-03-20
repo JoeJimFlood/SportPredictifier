@@ -3,7 +3,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 2,HOU,HOU,2,2,0,0,5,5,0,0,1
 3,ATL,ATL,1,1,3,0,4,3,1,0,1
 4,NY,NOLA,4,4,1,0,1,0,0,0,1
-5,UTAH,NOLA,,,,,,,,,
+5,UTAH,NOLA,6,2,1,0,2,2,0,0,1
 6,OGDC,OGDC,,,,,,,,,
 7,SEA,NOLA,,,,,,,,,
 9,ATL,NOLA,,,,,,,,,

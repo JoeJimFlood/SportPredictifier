@@ -2,7 +2,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 1,NOLA,NOLA,5,4,1,0,2,1,0,0,1
 2,SD,SD,2,1,0,0,4,3,1,0,1
 4,OGDC,NE,5,3,1,0,4,4,1,0,1
-5,NY,NY,,,,,,,,,
+5,NY,NY,4,2,3,0,2,1,2,0,1
 6,DAL,NE,,,,,,,,,
 7,UTAH,UTAH,,,,,,,,,
 8,CHI,NE,,,,,,,,,

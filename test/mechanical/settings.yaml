@@ -9,4 +9,5 @@ ranking_directory: ranking
 output_directory: forecasts
 ranking_filename: RankingsWeek{}
 report_filename: ReportWeek{}
+plot_filename: PlotsWeek{}
 use_spatial_weights: True

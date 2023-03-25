@@ -3,14 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import xlsxwriter
-from math import log2
+from .util import get_plot_shape, get_font_size
 
 def generate_report(fp, teams, results):
     print("Generating report")
     book = xlsxwriter.Workbook(fp, {'nan_inf_to_errors': True})
 
     # Formatting
-    header_format = book.add_format({'align': 'center', 'bold': True, 'bottom': True})
     index_format = book.add_format({'align': 'right', 'bold': True})
     score_format = book.add_format({'num_format': '#0', 'align': 'right'})
     percent_format = book.add_format({'num_format': '#0%', 'align': 'right'})
@@ -45,7 +44,7 @@ def generate_report(fp, teams, results):
         sheet.write_string(0, team2col, team2, team_formats[team2])
         probwin = results[result]['chances']
 
-        sheet.merge_range(1, team1col, 1, team2col, results[result]['venue'].location, merged_format)
+        sheet.merge_range(1, team1col, 1, team2col, results[result]["venue"].location, merged_format)
         sheet.merge_range(2, team1col, 2, team2col, results[result]["quality"], merged_format2)
         sheet.merge_range(3, team1col, 3, team2col, results[result]["entropy"], merged_format2)
         sheet.merge_range(4, team1col, 4, team2col, results[result]["hype"], merged_format)
@@ -67,3 +66,112 @@ def generate_report(fp, teams, results):
         i += 1
 
     book.close()
+
+def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
+    n_games_in_group = len(group_results)
+    plot_shape = get_plot_shape(n_games_in_group)
+    
+    font_size = get_font_size(n_games_in_group)
+
+    plt.figure(figsize = (15, 15), dpi = 96)
+    plt.title('{0} {1}'.format(round_name, round_number))
+    counter = 0
+    for result in group_results:
+        (team1, team2) = result.split("v")
+        stadium = group_results[result]["venue"].name
+        location = group_results[result]["venue"].location
+        hype = group_results[result]["hype"]
+
+        team1win = group_results[result]["chances"][team1]
+        team2win = group_results[result]["chances"][team2]
+        draw = 1 - team1win - team2win
+
+        counter += 1
+
+        if n_games_in_group == 5 and counter == 5:
+            plot_pos = 6
+        elif n_games_in_group == 7 and counter == 7:
+            plot_pos = 8
+        elif n_games_in_group == 8 and counter == 8:
+            plot_pos = 9
+        else:
+            plot_pos = counter
+
+        plt.subplot(plot_shape[0], plot_shape[1], plot_pos)
+
+        if draw == 0:
+            labels = [team1, team2]
+            values = [team1win, team2win]
+            colors1 = [teams[team1].color1, teams[team2].color1]
+            colors2 = [teams[team1].color2, teams[team2].color2]
+            explode = 2*[0.05]
+        else:
+            labels = [team1, team2, "DRAW"]
+            values = [team1win, team2win, draw]
+            colors1 = [teams[team1].color1, teams[team2].color1, "#808080"]
+            colors2 = [teams[team1].color2, teams[team2].color2, "#808080"]
+            explode = 3*[0.05]
+
+        patches = plt.pie(
+            values,
+            colors = colors1,
+            labels = labels,
+            explode = explode,
+            autopct='%.0f%%',
+            startangle = 90,
+            labeldistance = 1,
+            textprops = {'backgroundcolor': '#ffffff', 'ha': 'center', 'va': 'center', 'fontsize': font_size}
+            )
+
+        for i in range(len(patches[0])):
+            patches[0][i].set(edgecolor = colors2[i], hatch = '/')
+            patches[1][i].set(bbox = {'facecolor': 'w', 'edgecolor': 'k'})
+            patches[2][i].set(bbox = {'facecolor': 'w', 'edgecolor': 'k'})
+
+        title_lines = [
+            '{0} vs {1}'.format(teams[team1].name, teams[team2].name),
+            stadium,
+            location,
+            'Hype: {}'.format(int(round(hype, 0)))
+            ]
+        plt.title('\n'.join(title_lines), size = font_size)
+        
+    plt.savefig(fp)
+
+def generate_pie_charts(fp, teams, results, round_name, round_number):
+    assert fp.endswith('.png'), "Outfile must be a PNG file"
+
+    matchups = list(results.keys())
+    n_games = len(matchups)
+    n_groups = n_games // 9 + 1
+    games_per_group = n_games // n_groups
+
+    # Allocate results to plot group
+    groups = []
+    for i in range(n_groups):
+        group = {}
+        for j in range(games_per_group):
+            ix = i*games_per_group + j
+            if ix >= n_games:
+                continue
+            group[matchups[ix]] = results[matchups[ix]]
+        groups.append(group)
+
+    # Generate Plots
+    if len(groups) == 1:
+        __plot_pie_chart_group(
+            fp,
+            teams,
+            groups[0],
+            round_name,
+            round_number
+            )
+    else:
+        for i in range(len(groups)):
+            __plot_pie_chart_group(
+                fp.replace('.png', '_{}.png'.format(i+1)),
+                teams,
+                groups[i],
+                round_name,
+                round_number
+                )

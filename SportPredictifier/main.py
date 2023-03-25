@@ -1,7 +1,7 @@
 import sys
 import os
 from .load import *
-from .report import generate_report
+from .report import generate_report, generate_pie_charts
 from .ranking import rank
 from .util import create_score_tables, calculate_hype
 
@@ -14,7 +14,7 @@ def initialize_season():
 def predictify(round_number):
     season_settings = settings('settings.yaml')
     print('Predictifying {0} {1} {2}'.format(season_settings['name'], season_settings['round_name'], round_number))
-    (stadia, teams, score_settings) = data(season_settings, round_number, 'ROUND < {}'.format(round_number))
+    (stadia, teams, score_settings) = data(season_settings, round_number, '{0} < {1}'.format(season_settings['round_name'].upper(), round_number))
 
     print('Ranking teams')
     rank(
@@ -24,6 +24,7 @@ def predictify(round_number):
             season_settings['ranking_filename'].format(round_number) + '.csv'
             ),
         score_settings,
+        season_settings['round_name'],
         round_number
         )
 
@@ -36,7 +37,9 @@ def predictify(round_number):
     calculate_hype(season_settings, results, round_number)
 
     outfile = os.path.join(season_settings['output_directory'], (season_settings['report_filename'] + '.xlsx').format(round_number))
+    plotfile = os.path.join(season_settings['output_directory'], (season_settings['plot_filename'] + '.png').format(round_number))
     generate_report(outfile, teams, results)
+    generate_pie_charts(plotfile, teams, results, season_settings['round_name'], round_number)
 
 def main():
     if sys.argv[1] == 'initialize_season':

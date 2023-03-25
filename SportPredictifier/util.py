@@ -85,3 +85,25 @@ def calculate_hype(season_settings, results, round_number):
             base = 2
             )
         results[result]["hype"] = 100*results[result]["quality"]*results[result]["entropy"]
+
+def get_plot_shape(n_games):
+    plot_sizes = {
+        1: (1, 1),
+        2: (1, 2),
+        3: (2, 2),
+        4: (2, 2),
+        5: (2, 3),
+        6: (2, 3),
+        7: (3, 3),
+        8: (3, 3),
+        9: (3, 3),
+        }
+    return plot_sizes[n_games]
+
+def get_font_size(n_games):
+    if n_games == 1:
+        return 24
+    elif n_games < 5:
+        return 18
+    else:
+        return 12

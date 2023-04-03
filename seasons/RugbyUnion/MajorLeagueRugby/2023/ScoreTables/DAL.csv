@@ -4,8 +4,8 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 3,SEA,DAL,1,1,1,0,5,5,0,0,1
 4,SD,SD,0,0,0,0,3,2,1,0,1
 5,CHI,CHI,4,1,0,0,3,0,3,0,1
-6,NE,NE,,,,,,,,,
-7,TOR,DAL,,,,,,,,,
+6,NE,NE,0,0,1,0,1,1,1,0,1
+7,TOR,DAL,2,2,0,0,1,0,2,0,1
 9,HOU,HOU,,,,,,,,,
 10,SD,DAL,,,,,,,,,
 11,SEA,SEA,,,,,,,,,

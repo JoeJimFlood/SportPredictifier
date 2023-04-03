@@ -3,8 +3,8 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 2,NY,NY,0,0,1,0,6,3,1,0,1
 4,CHI,CHI,2,1,4,1,2,2,4,0,1
 5,OGDC,OGDC,0,0,1,0,4,3,1,0,1
-6,UTAH,UTAH,,,,,,,,,
-7,DAL,DAL,,,,,,,,,
+6,UTAH,UTAH,3,2,0,0,7,3,2,0,1
+7,DAL,DAL,1,0,2,0,2,2,0,0,1
 8,NY,TOR,,,,,,,,,
 9,NE,TOR,,,,,,,,,
 10,SEA,TOR,,,,,,,,,

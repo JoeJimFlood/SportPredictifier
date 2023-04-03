@@ -4,7 +4,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 3,HOU,HOU,4,3,0,0,4,4,1,0,1
 4,DAL,SD,3,2,1,0,0,0,0,0,1
 5,ATL,ATL,5,2,2,0,2,0,0,0,1
-7,OGDC,SD,,,,,,,,,
+7,OGDC,SD,7,5,1,0,4,3,0,0,1
 8,SEA,SEA,,,,,,,,,
 10,DAL,DAL,,,,,,,,,
 11,HOU,SD,,,,,,,,,

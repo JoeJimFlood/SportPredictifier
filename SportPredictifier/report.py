@@ -143,7 +143,7 @@ def generate_pie_charts(fp, teams, results, round_name, round_number):
 
     matchups = list(results.keys())
     n_games = len(matchups)
-    n_groups = n_games // 9 + 1
+    n_groups = (n_games-1) // 9 + 1
     games_per_group = n_games // n_groups
 
     # Allocate results to plot group

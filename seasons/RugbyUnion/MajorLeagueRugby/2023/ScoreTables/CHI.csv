@@ -3,8 +3,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 3,UTAH,CHI,1,1,1,0,2,2,0,0,1
 4,TOR,CHI,2,2,4,0,2,1,4,1,1
 5,DAL,CHI,3,0,3,0,4,1,0,0,1
-6,SEA,CHI,,,,,,,,,
-7,HOU,CHI,,,,,,,,,
+7,HOU,CHI,3,3,0,0,6,4,0,0,1
 8,NE,NE,,,,,,,,,
 9,SEA,SEA,,,,,,,,,
 10,NOLA,CHI,,,,,,,,,

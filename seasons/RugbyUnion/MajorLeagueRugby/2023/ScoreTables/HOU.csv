@@ -5,7 +5,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 4,SEA,SEA,2,1,0,0,2,1,4,0,1
 6,ATL,HOU,6,5,0,0,4,4,0,0,1
 7,CHI,CHI,6,4,0,0,3,3,0,0,1
-8,UTAH,HOU,,,,,,,,,
+8,UTAH,HOU,3,3,1,0,3,3,3,0,1
 9,DAL,HOU,,,,,,,,,
 10,NY,NY,,,,,,,,,
 11,SD,SD,,,,,,,,,

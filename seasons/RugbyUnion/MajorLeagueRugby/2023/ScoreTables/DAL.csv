@@ -7,7 +7,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 6,NE,NE,0,0,1,0,1,1,1,0,1
 7,TOR,DAL,2,2,0,0,1,0,2,0,1
 9,HOU,HOU,3,3,0,0,5,4,0,0,1
-10,SD,DAL,,,,,,,,,
+10,SD,DAL,6,4,0,0,7,6,0,0,1
 11,SEA,SEA,,,,,,,,,
 12,OGDC,DAL,,,,,,,,,
 13,UTAH,DAL,,,,,,,,,

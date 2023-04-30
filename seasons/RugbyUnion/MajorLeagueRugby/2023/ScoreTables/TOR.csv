@@ -8,7 +8,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 8,NY,TOR,4,2,1,0,4,3,1,0,1
 9,NE,TOR,1,0,0,0,12,10,0,0,1
 10,SEA,TOR,3,3,2,0,5,4,1,0,1
-11,NOLA,NOLA,,,,,,,,,
+11,NOLA,NOLA,3,3,1,0,6,5,0,0,1
 13,ATL,TOR,,,,,,,,,
 14,OGDC,TOR,,,,,,,,,
 15,NE,NE,,,,,,,,,

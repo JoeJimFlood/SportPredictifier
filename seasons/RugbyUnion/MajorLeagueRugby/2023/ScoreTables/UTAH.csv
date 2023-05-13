@@ -8,7 +8,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 8,HOU,HOU,3,3,3,0,3,3,1,0,1
 9,SEA,UTAH,6,4,1,0,5,5,0,0,1
 10,OGDC,OGDC,4,1,0,0,5,4,1,0,1
-12,SD,UTAH,,,,,,,,,
+12,SD,UTAH,2,0,2,0,2,2,4,0,1
 13,DAL,DAL,,,,,,,,,
 14,HOU,UTAH,,,,,,,,,
 15,ATL,UTAH,,,,,,,,,

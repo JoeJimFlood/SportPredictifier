@@ -5,6 +5,7 @@ import yaml
 
 from .objects import *
 from .util import *
+from .validation import *
 
 from .weighting.spatial import get_spatial_weight
 
@@ -84,6 +85,7 @@ def __load_score_tables(score_table_path, query = None):
             score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
         else:
             score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file)).query(query)
+
     return score_tables
 
 def __calculate_spatial_weights(score_tables, teams, stadia):
@@ -212,6 +214,8 @@ def data(settings, round_number = None, score_table_query = None, initializing_s
     teams = __load_teams(settings['teams_file'], stadia)
     score_settings = __load_score_settings(settings['score_settings_file'])
     score_tables = __load_score_tables(settings['score_table_path'], score_table_query)
+
+    validate_score_tables(score_tables, score_settings, settings)
 
     if not initializing_season:
         if settings['use_spatial_weights']:

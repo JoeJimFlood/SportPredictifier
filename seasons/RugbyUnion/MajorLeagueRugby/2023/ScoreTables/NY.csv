@@ -10,7 +10,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 10,HOU,NY,4,2,1,0,5,3,1,0,1
 11,NE,NE,0,0,0,0,1,0,1,0,1
 12,NOLA,NY,8,7,0,0,3,2,0,0,1
-13,CHI,CHI,,,,,,,,,
+13,CHI,CHI,3,3,0,0,2,2,2,0,1
 15,SD,SD,,,,,,,,,
 16,DAL,NY,,,,,,,,,
 17,ATL,ATL,,,,,,,,,

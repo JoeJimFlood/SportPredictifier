@@ -10,7 +10,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 10,NE,NE,2,0,1,0,3,1,2,0,1
 12,CHI,ATL,3,3,2,0,2,1,0,0,1
 13,TOR,TOR,4,4,2,0,4,4,2,0,1
-14,DAL,ATL,,,,,,,,,
+14,DAL,ATL,3,2,0,0,4,2,0,1,0
 15,UTAH,UTAH,,,,,,,,,
 16,NE,ATL,,,,,,,,,
 17,NY,ATL,,,,,,,,,

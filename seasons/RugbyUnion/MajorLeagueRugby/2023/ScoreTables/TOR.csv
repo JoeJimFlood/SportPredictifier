@@ -11,7 +11,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 11,NOLA,NOLA,3,3,1,0,6,5,0,0,1
 13,ATL,TOR,4,4,2,0,4,4,2,0,1
 14,OGDC,TOR,4,3,1,0,5,2,0,0,1
-15,NE,NE,,,,,,,,,
+15,NE,NE,2,2,2,0,9,6,0,0,1
 16,HOU,TOR,,,,,,,,,
 17,SD,TOR,,,,,,,,,
 18,NOLA,TOR,,,,,,,,,

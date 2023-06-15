@@ -71,7 +71,7 @@ def __load_score_settings(fp):
     score_settings_table = pd.read_csv(fp)
     return __load_table(ScoreSettings, score_settings_table)
 
-def __load_score_tables(score_table_path, query = None):
+def __load_score_tables(score_table_path, query = None, drop_null_score_table_records = False):
     '''
     score_table_path (str):
         Directory with score tables
@@ -85,6 +85,10 @@ def __load_score_tables(score_table_path, query = None):
             score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file))
         else:
             score_tables[score_table_file[:-4]] = pd.read_csv(os.path.join(score_table_path, score_table_file)).query(query)
+
+    if drop_null_score_table_records:
+        for team in score_tables:
+            score_tables[team] = score_tables[team].dropna()
 
     return score_tables
 
@@ -209,11 +213,11 @@ def settings(settings_file):
         f.close()
     return data
 
-def data(settings, round_number = None, score_table_query = None, initializing_season = False):
+def data(settings, round_number = None, score_table_query = None, drop_null_score_table_records = False, initializing_season = False):
     stadia = __load_stadia(settings['stadia_file'])
     teams = __load_teams(settings['teams_file'], stadia)
     score_settings = __load_score_settings(settings['score_settings_file'])
-    score_tables = __load_score_tables(settings['score_table_path'], score_table_query)
+    score_tables = __load_score_tables(settings['score_table_path'], score_table_query, drop_null_score_table_records)
 
     validate_score_tables(score_tables, score_settings, settings)
 
@@ -237,12 +241,15 @@ def data(settings, round_number = None, score_table_query = None, initializing_s
 
     return stadia, teams, score_settings
 
-def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False, result_dict = None):
+def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False, result_dict = None, schedule_override = None):
     print("Loading schedule")
-    if round_number is None:
-        schedule_table = pd.read_csv(settings['schedule_file'])
+    if schedule_override is None:
+        if round_number is None:
+            schedule_table = pd.read_csv(settings['schedule_file'])
+        else:
+            schedule_table = pd.read_csv(settings['schedule_file']).query('round_number == @round_number')
     else:
-        schedule_table = pd.read_csv(settings['schedule_file']).query('round_number == @round_number')
+        schedule_table = schedule_override.copy()
 
     schedule_table['date'] = pd.to_datetime(schedule_table[["year", "month", "day"]])
     schedule_table['score_settings'] = schedule_table.shape[0]*[score_settings]

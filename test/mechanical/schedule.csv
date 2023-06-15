@@ -12,3 +12,4 @@ round_number,year,month,day,team1,team2,venue,knockout
 3,2023,1,29,BUF,KC,ATL,TRUE
 3,2023,1,29,SF,PHI,PHI,TRUE
 4,2023,2,12,KC,PHI,ARI,TRUE
+4,2023,2,12,KC,SF,ARI,TRUE

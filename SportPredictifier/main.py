@@ -3,7 +3,8 @@ import os
 from .load import *
 from .report import generate_report, generate_pie_charts
 from .ranking import rank
-from .util import create_score_tables, calculate_hype
+from .util import create_score_tables, calculate_hype, run_multithreaded_games
+from .matrix import generate_schedule
 
 def initialize_season():
     print('Initializing Season')
@@ -31,8 +32,7 @@ def predictify(round_number):
     results = {}
     round_schedule = schedule(season_settings, teams, stadia, score_settings, round_number = round_number, multithreaded = True, result_dict = results)
 
-    for game in round_schedule:
-        game.join()
+    run_multithreaded_games(round_schedule)
 
     calculate_hype(season_settings, results, round_number)
 
@@ -41,8 +41,37 @@ def predictify(round_number):
     generate_report(outfile, teams, results)
     generate_pie_charts(plotfile, teams, results, season_settings['round_name'], round_number)
 
+def matrix(outfile = 'matrix.csv'):
+    print("Creating Matrix")
+    season_settings = settings('settings.yaml')
+    matrix_settings = settings('matrix.yaml')
+
+    matrix_schedule = generate_schedule(matrix_settings)
+
+    print("Setting up matchups")
+    matchups = []
+    results = {}
+    for ix, row in matrix_schedule.iterrows():
+        round_number = row['round_number']
+        (stadia, teams, score_settings) = data(season_settings, round_number, drop_null_score_table_records = True)
+        matchups += schedule(season_settings, teams, stadia, score_settings, round_number, multithreaded = True, result_dict = results, schedule_override = matrix_schedule)
+
+    import pdb
+    pdb.set_trace()
+
+    run_multithreaded_games(matchups)
+
+    
+
 def main():
     if sys.argv[1] == 'initialize_season':
         initialize_season()
+
     elif sys.argv[1] == 'predictify':
         predictify(int(sys.argv[2]))
+
+    elif sys.argv[1] == 'matrix':
+        if len(sys.argv) > 2:
+            matrix(sys.argv[2])
+        else: # User did not specify outfile name
+            matrix()

@@ -20,6 +20,10 @@ def cap_probability(p): #Maybe make enpoints configurable
             p, 0),
         1)
 
+def run_multithreaded_games(games):
+    for game in games:
+        game.join()
+
 def create_score_table(directory, team, schedule, score_settings):
     columns = ['ROUND', 'OPP', 'VENUE']
     for direction in directions:

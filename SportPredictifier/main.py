@@ -4,7 +4,7 @@ from .load import *
 from .report import generate_report, generate_pie_charts
 from .ranking import rank
 from .util import create_score_tables, calculate_hype, run_multithreaded_games
-from .matrix import generate_schedule
+from .matrix import generate_schedule, write_matrix
 
 def initialize_season():
     print('Initializing Season')
@@ -51,17 +51,22 @@ def matrix(outfile = 'matrix.csv'):
     print("Setting up matchups")
     matchups = []
     results = {}
-    for ix, row in matrix_schedule.iterrows():
-        round_number = row['round_number']
+
+    for round_number in matrix_schedule['round_number'].value_counts().index:
+        #round_number = row['round_number']
         (stadia, teams, score_settings) = data(season_settings, round_number, drop_null_score_table_records = True)
         matchups += schedule(season_settings, teams, stadia, score_settings, round_number, multithreaded = True, result_dict = results, schedule_override = matrix_schedule)
 
-    import pdb
-    pdb.set_trace()
-
+    print("Running matchups")
     run_multithreaded_games(matchups)
 
-    
+    print("Writing matrix")
+    outfile = os.path.join(season_settings['output_directory'], (matrix_settings['outfile']))
+    write_matrix(matrix_settings, results, outfile)
+
+    print("Writing all results")
+    outfile = os.path.join(season_settings['output_directory'], (season_settings['report_filename'] + '_matrix.xlsx'))
+    generate_report(outfile, teams, results)
 
 def main():
     if sys.argv[1] == 'initialize_season':

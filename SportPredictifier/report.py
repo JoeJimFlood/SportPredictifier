@@ -45,9 +45,12 @@ def generate_report(fp, teams, results):
         probwin = results[result]['chances']
 
         sheet.merge_range(1, team1col, 1, team2col, results[result]["venue"].location, merged_format)
-        sheet.merge_range(2, team1col, 2, team2col, results[result]["quality"], merged_format2)
-        sheet.merge_range(3, team1col, 3, team2col, results[result]["entropy"], merged_format2)
-        sheet.merge_range(4, team1col, 4, team2col, results[result]["hype"], merged_format)
+        try:
+            sheet.merge_range(2, team1col, 2, team2col, results[result]["quality"], merged_format2)
+            sheet.merge_range(3, team1col, 3, team2col, results[result]["entropy"], merged_format2)
+            sheet.merge_range(4, team1col, 4, team2col, results[result]["hype"], merged_format)
+        except KeyError:
+            pass
 
         sheet.write_number(5, team1col, probwin[team1], percent_format)
         sheet.write_number(5, team2col, probwin[team2], percent_format)

@@ -102,7 +102,7 @@ def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
 
         plt.subplot(plot_shape[0], plot_shape[1], plot_pos)
 
-        if draw == 0:
+        if draw < 2**-23:
             labels = [team1, team2]
             values = [team1win, team2win]
             colors1 = [teams[team1].color1, teams[team2].color1]

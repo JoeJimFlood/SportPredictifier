@@ -137,7 +137,11 @@ def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
             location,
             'Hype: {}'.format(int(round(hype, 0)))
             ]
-        plt.title('\n'.join(title_lines), size = font_size)
+        
+        if n_games_in_group == 1:
+            plt.title('\n'.join(title_lines), size = font_size, y = 0.905)
+        else:
+            plt.title('\n'.join(title_lines), size = font_size)
         
     plt.savefig(fp)
 

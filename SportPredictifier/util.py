@@ -106,7 +106,7 @@ def get_plot_shape(n_games):
 
 def get_font_size(n_games):
     if n_games == 1:
-        return 24
+        return 48
     elif n_games < 5:
         return 18
     else:

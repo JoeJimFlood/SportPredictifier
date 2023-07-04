@@ -1,4 +1,5 @@
 import pandas as pd
+from .util import directions, compliment_direction
 
 def check_consistency(errors, score_tables, score_settings, settings):
     '''
@@ -30,11 +31,40 @@ def check_consistency(errors, score_tables, score_settings, settings):
 
     del scores_for, current_team
     return errors
+
+def check_validity(errors, score_tables, score_settings, settings):
+    '''
+    Checks if every probabilistic score type is not greater than the condition
+    '''
+    for score_type in score_settings:
+        for team in score_tables:
+            current_team = score_tables[team].copy()
+
+            if score_settings[score_type].prob:
+
+                current_team['condition'] = current_team.eval(score_settings[score_type].condition.replace('{F}', 'F').replace('{A}', 'A'))
+                current_team['invalid'] = (current_team[score_type + '_F'] > current_team['condition'])
+
+                if current_team['invalid'].sum() == 0:
+                    continue
+
+                problems = current_team.query('invalid')
+                for (ix, row) in problems.iterrows():
+                    errors.append('Invalid condition for {0} in {1} {2} of Score Table for {3}'.format(score_type + "_F",
+                                                                                                        settings["round_name"],
+                                                                                                        row[settings['round_name'].upper()],
+                                                                                                        team))
+
+            else:
+                continue
+
+    return errors
                 
 def validate_score_tables(score_tables, score_settings, settings):
     print("Validating score tables")
     errors = []
     errors = check_consistency(errors, score_tables, score_settings, settings)
+    errors = check_validity(errors, score_tables, score_settings, settings)
 
     if len(errors) > 0:
         for error in errors:

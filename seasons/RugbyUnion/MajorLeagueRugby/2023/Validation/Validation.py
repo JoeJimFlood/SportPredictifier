@@ -66,7 +66,7 @@ plt.xticks(range(0, 90, 10))
 plt.yticks(range(0, 90, 10))
 plt.axis('equal')
 plt.legend(loc = 'upper right')
-title_lines = ['Rugby Predictifier Validation: 2022 Major League Rugby Season',
+title_lines = ['Rugby Predictifier Validation: 2023 Major League Rugby Season',
                'Actual Scores vs. Expected Scores (Average of 5,000,000 Simulations)',
                'Round {0}+: Actual = {1}\u00d7Expected + {2} + \u03b5, r\u00b2 = {3}'.format(min_round,
                                                                                              round(res.params[0], 2),

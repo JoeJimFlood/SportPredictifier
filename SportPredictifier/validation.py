@@ -1,6 +1,33 @@
 import pandas as pd
 from .util import directions, compliment_direction
 
+def check_teams_and_venues(errors, score_tables, teams, stadia, settings):
+    '''
+    Checks that the teams and venues listed in the score table exist
+    '''
+    for team in score_tables:
+        current_table = score_tables[team].copy()
+        #assert current_table['OPP'].apply(lambda x: x != team).all() # Checking that a team isn't recorded as playing against themselves
+        #assert current_table['OPP'].isin(teams.keys()).all() # Check if all opponents are valid
+        #assert current_table['VENUE'].isin(stadia.keys()).all() # Check if all venues are valid
+        for ix, row in current_table.iterrows():
+            if row['OPP'] == team:
+                errors.append("{0} is recorded as playing against themselves in {1} {2}".format(team,
+                                                                                                settings['round_name'],
+                                                                                                row[settings['round_name'].upper()]))
+            if row['OPP'] not in teams.keys():
+                errors.append("{0} is not a valid opponent for {1} in {2} {3}".format(row['OPP'],
+                                                                                      team,
+                                                                                      settings['round_name'],
+                                                                                      row[settings['round_name'].upper()]))
+            if row['VENUE'] not in stadia.keys():
+                errors.append("{0} is not a valid venue for {1} in {2} {3}".format(row['VENUE'],
+                                                                                   team,
+                                                                                   settings['round_name'],
+                                                                                   row[settings['round_name'].upper()]))
+
+    return errors
+
 def check_consistency(errors, score_tables, score_settings, settings):
     '''
     Checks for consistency between score tables
@@ -50,7 +77,7 @@ def check_validity(errors, score_tables, score_settings, settings):
 
                 problems = current_team.query('invalid')
                 for (ix, row) in problems.iterrows():
-                    errors.append('Invalid condition for {0} in {1} {2} of Score Table for {3}'.format(score_type + "_F",
+                    errors.append('Invalid condition for {0} in {1} {2} of score table for {3}'.format(score_type + "_F",
                                                                                                         settings["round_name"],
                                                                                                         row[settings['round_name'].upper()],
                                                                                                         team))
@@ -60,9 +87,10 @@ def check_validity(errors, score_tables, score_settings, settings):
 
     return errors
                 
-def validate_score_tables(score_tables, score_settings, settings):
+def validate_score_tables(score_tables, score_settings, teams, stadia, settings):
     print("Validating score tables")
     errors = []
+    errors = check_teams_and_venues(errors, score_tables, teams, stadia, settings)
     errors = check_consistency(errors, score_tables, score_settings, settings)
     errors = check_validity(errors, score_tables, score_settings, settings)
 

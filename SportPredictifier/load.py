@@ -5,7 +5,7 @@ import yaml
 
 from .objects import *
 from .util import *
-from .validation import *
+from .validation import validate_score_tables
 
 from .weighting.spatial import get_spatial_weight
 
@@ -219,7 +219,7 @@ def data(settings, round_number = None, score_table_query = None, drop_null_scor
     score_settings = __load_score_settings(settings['score_settings_file'])
     score_tables = __load_score_tables(settings['score_table_path'], score_table_query, drop_null_score_table_records)
 
-    validate_score_tables(score_tables, score_settings, settings)
+    validate_score_tables(score_tables, score_settings, teams, stadia, settings)
 
     if not initializing_season:
         if settings['use_spatial_weights']:

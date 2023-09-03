@@ -1,0 +1,13 @@
+teams:
+  east:
+    - NE
+    - OGDC
+    - NY
+  west:
+    - SD
+    - SEA
+    - UTAH
+neutral_venues:
+  CHI:
+    - east
+    - west

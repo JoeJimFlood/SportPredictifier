@@ -1,0 +1,9 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+7,ROM,RUG,4,4,1,0,1,1,0,0,1
+8,POR,RUG,6,4,0,0,1,0,2,0,1
+17,ROM,RUG,8,5,2,0,0,0,2,0,1
+19,SCO,RUG,0,0,2,0,5,4,0,0,1
+20,AUS,PAR,2,1,1,0,4,3,3,0,1
+22,POR,TOU,,,,,,,,,
+23,FIJ,BOR,,,,,,,,,
+24,WAL,NAN,,,,,,,,,

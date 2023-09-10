@@ -1,0 +1,11 @@
+code,name,location,lat,lon,elev
+RUG,Rugby,Rugby,0,0,0
+PAR,Stade de France,Paris,48.924444,2.36,0
+MAR,Stade Velodrome,Marseille,43.269722,5.395833,0
+LYO,Parc Olympique Lyonnais,Lyon,45.765278,4.981944,0
+LIL,Stade Pierre-Mauroy,Lille,50.6119,3.1304,0
+BOR,Nouveau Stade de Bordeaux,Bordeaux,44.897222,-0.561667,0
+SE,Stade Geoffroy-Guichard,Saint-Etienne,45.460833,4.390278,0
+NIC,Stade de Nice,Nice,43.705139,7.192583,0
+NAN,Stade de la Beaujoire,Nantes,47.2556,-1.5253,0
+TOU,Stadium de Toulouse,Toulouse,43.583056,1.434167,0

@@ -1,0 +1,9 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+9,NZL,RUG,2,1,0,0,7,3,0,0,1
+10,AUS,RUG,4,4,2,0,4,4,1,0,1
+11,RSA,RUG,2,1,3,0,3,2,1,0,1
+16,RSA,RUG,1,1,2,0,2,1,4,0,1
+20,ENG,MAR,1,1,1,0,0,0,6,3,1
+22,SAM,SE,,,,,,,,,
+23,CHI,NAN,,,,,,,,,
+24,JPN,NAN,,,,,,,,,

@@ -1,0 +1,15 @@
+round_number: 19
+outfile: matrix.csv
+
+teams:
+  east:
+    - NE
+    - OGDC
+  west:
+    - SD
+    - SEA
+
+neutral_venues:
+  CHI:
+    - east
+    - west

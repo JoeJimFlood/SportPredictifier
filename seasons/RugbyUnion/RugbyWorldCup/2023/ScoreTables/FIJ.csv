@@ -1,0 +1,10 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+12,TGA,RUG,5,3,1,0,3,1,1,0,1
+13,SAM,RUG,4,2,3,0,3,2,0,0,1
+14,JPN,RUG,5,5,0,0,2,1,0,0,1
+18,FRA,RUG,2,2,1,0,3,2,5,0,1
+19,ENG,RUG,3,3,3,0,3,2,1,0,1
+20,WAL,BOR,,,,,,,,,
+21,AUS,SE,,,,,,,,,
+23,GEO,BOR,,,,,,,,,
+24,POR,TOU,,,,,,,,,

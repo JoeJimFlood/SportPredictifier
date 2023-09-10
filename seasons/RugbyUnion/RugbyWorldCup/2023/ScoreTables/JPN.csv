@@ -1,0 +1,9 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+12,SAM,RUG,1,1,5,0,3,3,1,0,1
+13,TGA,RUG,3,0,2,0,2,0,2,0,1
+14,FIJ,RUG,2,1,0,0,5,5,0,0,1
+19,ITA,RUG,3,1,2,0,5,4,3,0,1
+20,CHI,TOU,,,,,,,,,
+21,ENG,NIC,,,,,,,,,
+23,SAM,TOU,,,,,,,,,
+24,ARG,NAN,,,,,,,,,

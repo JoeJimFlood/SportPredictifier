@@ -1,0 +1,5 @@
+code,description,points,prob,opp_effect,base,condition
+T,Try,5,FALSE,TRUE,,
+C,Conversion,2,TRUE,TRUE,0.75,T_{F}
+P,Penalty,3,FALSE,TRUE,,
+DG,Drop Goal,3,FALSE,TRUE,,

@@ -1,0 +1,7 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+6,ROM,RUG,5,5,1,0,2,2,2,0,1
+8,GEO,RUG,1,0,2,0,6,4,0,0,1
+21,WAL,NIC,,,,,,,,,
+22,GEO,TOU,,,,,,,,,
+23,AUS,SE,,,,,,,,,
+24,FIJ,TOU,,,,,,,,,

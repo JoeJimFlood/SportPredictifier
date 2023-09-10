@@ -1,0 +1,17 @@
+round_number: 25
+outfile: matrix.csv
+
+teams:
+  one:
+    - COL
+    - PA
+    - GWS
+  two:
+    - BL
+    - MEL
+    - CAR
+
+neutral_venues:
+  MCG:
+    - one
+    - two

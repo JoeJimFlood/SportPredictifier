@@ -45,8 +45,9 @@ def matrix(outfile = 'matrix.csv'):
     print("Creating Matrix")
     season_settings = settings('settings.yaml')
     matrix_settings = settings('matrix.yaml')
+    (stadia, teams, score_settings) = data(season_settings, matrix_settings['round_number'])
 
-    matrix_schedule = generate_schedule(matrix_settings)
+    matrix_schedule = generate_schedule(matrix_settings, teams)
 
     print("Setting up matchups")
     matchups = []

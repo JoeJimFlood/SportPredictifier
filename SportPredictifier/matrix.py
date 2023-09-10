@@ -7,22 +7,22 @@ def __get_team_list(matrix_settings):
         teams += matrix_settings['teams'][group]
     return teams
 
-def __assign_venue(team1, team2, matrix_settings):
+def __assign_venue(team1, team2, matrix_settings, teams):
     for group in matrix_settings['teams']:
         if team1 in matrix_settings['teams'][group] and team2 in matrix_settings['teams'][group]:
             if matrix_settings['teams'][group].index(team1) < matrix_settings['teams'][group].index(team2):
-                return team1
+                return teams[team1].stadium.code
             else:
-                return team2
+                return teams[team2].stadium.code
 
     return list(matrix_settings['neutral_venues'].keys())[0] # TODO: Make this more flexible
 
-def __get_matchup_list(team_list, matrix_settings):
+def __get_matchup_list(team_list, matrix_settings, teams):
     matchups = []
     N = len(team_list)
     for i in range(N):
         for j in range(i+1, N):
-            matchups.append((team_list[i], team_list[j], __assign_venue(team_list[i], team_list[j], matrix_settings)))
+            matchups.append((team_list[i], team_list[j], __assign_venue(team_list[i], team_list[j], matrix_settings, teams)))
     return matchups
 
 def __get_allocated_teams(matchups):
@@ -50,7 +50,7 @@ def __allocate_matchups(matchups, roundno = 0):
 
     return matchups_by_round
 
-def generate_schedule(matrix_settings):
+def generate_schedule(matrix_settings, teams):
     print('Generating Matrix Schedule')
     #matchups
     #for group in matrix_settings['teams']:
@@ -62,8 +62,8 @@ def generate_schedule(matrix_settings):
     #            for team2 in matrix_settings['teams'][matrix_settings['neutral_venues'][venue][1]]:
     #                matchups.append((team1, team2, venue))
 
-    teams = __get_team_list(matrix_settings)
-    matchups = __get_matchup_list(teams, matrix_settings)
+    team_list = __get_team_list(matrix_settings)
+    matchups = __get_matchup_list(team_list, matrix_settings, teams)
     matchups_by_round = __allocate_matchups(matchups, matrix_settings['round_number'])
 
     matrix_schedule = pd.DataFrame(columns = ['round_number',

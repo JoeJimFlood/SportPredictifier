@@ -2,7 +2,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 12,FIJ,RUG,3,1,1,0,5,3,1,0,1
 13,JPN,RUG,2,0,2,0,3,0,2,0,1
 14,SAM,RUG,0,0,3,0,4,4,2,0,1
-21,IRE,NAN,,,,,,,,,
+21,IRE,NAN,1,1,3,0,8,8,1,0,1
 22,SCO,NIC,,,,,,,,,
 23,RSA,MAR,,,,,,,,,
 24,ROM,LIL,,,,,,,,,

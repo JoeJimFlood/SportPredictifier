@@ -5,6 +5,6 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 18,FRA,RUG,2,2,1,0,3,2,5,0,1
 19,ENG,RUG,3,3,3,0,3,2,1,0,1
 20,WAL,BOR,4,3,0,0,4,3,2,0,1
-21,AUS,SE,,,,,,,,,
+21,AUS,SE,1,1,5,0,2,1,1,0,1
 23,GEO,BOR,,,,,,,,,
 24,POR,TOU,,,,,,,,,

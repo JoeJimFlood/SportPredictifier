@@ -4,11 +4,9 @@ outfile: matrix.csv
 teams:
   one:
     - COL
-    - PA
     - GWS
   two:
     - BL
-    - MEL
     - CAR
 
 neutral_venues:

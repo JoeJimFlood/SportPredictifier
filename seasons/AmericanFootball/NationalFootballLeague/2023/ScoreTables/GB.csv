@@ -1,8 +1,8 @@
-ROUND,OPP,VENUE,TD_F,FG_F,S_F,GOFOR2_F,PAT1_F,PAT2_F,D2PC_F,TD_A,FG_A,S_A,GOFOR2_A,PAT1_A,PAT2_A,D2PC_A,weight
-1,CHI,CHI,,,,,,,,,,,,,,,
-2,ATL,ATL,,,,,,,,,,,,,,,
-3,NO,GB,,,,,,,,,,,,,,,
-3,DET,GB,,,,,,,,,,,,,,,
+WEEK,OPP,VENUE,TD_F,FG_F,S_F,GOFOR2_F,PAT1_F,PAT2_F,D2PC_F,TD_A,FG_A,S_A,GOFOR2_A,PAT1_A,PAT2_A,D2PC_A,weight
+1,CHI,CHI,5,1,0,0,5,0,0,2,2,0,2,0,1,0,1
+2,ATL,ATL,3,1,0,0,3,0,0,2,4,0,0,1,0,0,1
+3,NO,GB,2,1,0,1,1,1,0,2,1,0,0,2,0,0,1
+4,DET,GB,,,,,,,,,,,,,,,
 5,LV,LV,,,,,,,,,,,,,,,
 7,DEN,DEN,,,,,,,,,,,,,,,
 8,MIN,GB,,,,,,,,,,,,,,,

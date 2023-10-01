@@ -3,5 +3,5 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 8,GEO,RUG,1,0,2,0,6,4,0,0,1
 21,WAL,NIC,1,0,1,0,4,4,0,0,1
 22,GEO,TOU,2,1,2,0,2,1,2,0,1
-23,AUS,SE,,,,,,,,,
+23,AUS,SE,2,2,0,0,5,3,1,0,1
 24,FIJ,TOU,,,,,,,,,

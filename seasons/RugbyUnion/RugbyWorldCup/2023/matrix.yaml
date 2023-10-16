@@ -3,11 +3,7 @@ outfile: matrix.csv
 
 teams:
   rwc:
-    - WAL
     - ARG
-    - IRE
     - NZL
     - ENG
-    - FIJ
-    - FRA
     - RSA

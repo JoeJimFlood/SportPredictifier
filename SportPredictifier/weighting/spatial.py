@@ -36,6 +36,15 @@ def get_spatial_weight(stadium, home, reference):
     As an example, if a team is based in Seattle and they're playing a game in San Diego (1700 km), a past game they played in Denver (1650 km) will be weighted
     more in calculating expected scores than a past game they played in New York (3875 km) or at home (0 km).
 
+    In this scenario, the following weights would be applied to the score table using San Diego as the reference location:
+
+    Location |Distance (km)|Proportion of half of Earth's circumference|Reference|Difference|Weight|
+    ---------|-------------|-------------------------------------------|---------|----------|------|
+    Denver   |         1650|                                      0.082|    0.085|    -0.002| 0.998|
+    New York |         3875|                                      0.193|    0.085|     0.109| 0.891|
+    Seattle  |            0|                                      0.000|    0.085|    -0.085| 0.915|
+    Perth    |        14900|                                      0.744|    0.085|     0.659| 0.341|
+
     Parameters
     ----------
     stadium (SportPredictifier.Stadium):

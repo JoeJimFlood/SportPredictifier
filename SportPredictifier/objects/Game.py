@@ -39,7 +39,7 @@ class Game(threading.Thread):
                                 team2.code: {}
         }
         self.result_dict = result_dict
-        self.n_simulations
+        self.n_simulations = n_simulations
 
         #Set oppponents for each team
         self.team1.opp = team2

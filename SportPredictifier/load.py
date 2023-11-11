@@ -252,6 +252,7 @@ def schedule(settings, teams, stadia, score_settings, round_number = None, multi
     else:
         schedule_table = schedule_override.copy()
 
+    schedule_table['n_simulations'] = settings['n_simulations']
     schedule_table['date'] = pd.to_datetime(schedule_table[["year", "month", "day"]])
     schedule_table['score_settings'] = schedule_table.shape[0]*[score_settings]
     del schedule_table['year'], schedule_table['month'], schedule_table['day']

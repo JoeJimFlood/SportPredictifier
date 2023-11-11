@@ -5,13 +5,11 @@ import numpy as np
 from ..util import *
 from ..simulate import simulate_game
 
-N_SIMULATIONS = 5000000 #TODO: Add to settings
-
 class Game(threading.Thread):
 
-    def __init__(self, result_dict, round_number, date, team1, team2, venue, knockout, score_settings):
+    def __init__(self, result_dict, round_number, date, team1, team2, venue, knockout, score_settings, n_simulations):
         '''
-        Game object!
+        The game object is used to simulate a game. 
 
         Parameters
         ----------
@@ -23,6 +21,10 @@ class Game(threading.Thread):
             Team #2 that is playing in the game
         venue (SportPredictifier.Team):
             Venue of game
+        knockout (bool):
+            If set to `False`, a draw is possible
+        n_simulations (int):
+            Number of simulations to run when simulating the game
         '''
         threading.Thread.__init__(self)
 
@@ -37,6 +39,7 @@ class Game(threading.Thread):
                                 team2.code: {}
         }
         self.result_dict = result_dict
+        self.n_simulations
 
         #Set oppponents for each team
         self.team1.opp = team2
@@ -76,5 +79,5 @@ class Game(threading.Thread):
                                                                                  self.venue.name))
         print(self.expected_scores)
 
-        self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = simulate_game(N_SIMULATIONS, self.expected_scores, self.score_settings, self.venue, self.knockout)
+        self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = simulate_game(self.n_simulations, self.expected_scores, self.score_settings, self.venue, self.knockout)
         #print(results)

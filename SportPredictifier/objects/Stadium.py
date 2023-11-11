@@ -2,7 +2,7 @@ class Stadium:
 
     def __init__(self, code, name, location, lat, lon, elev):
         """
-        Stadium where a game can be played
+        The `Stadium` object is a venue that can host a game. Attributes include the name and various location attributes.
 
         Attributes
         ----------

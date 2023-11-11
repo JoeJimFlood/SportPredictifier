@@ -2,7 +2,7 @@ class Team:
 
     def __init__(self, code, name, stadium, color1, color2):
         """
-        Team that participates in a competition
+        The `Team` object is a team that can participate in a game. Attributes include the name, home stadium, and colors.
 
         Attributes
         ----------

@@ -1,6 +1,7 @@
 class ScoreSettings:
     '''
-    Settings for different ways to score and characteristics of them
+    Settings for different ways to score and various characteristics of them, such as how many points they're worth, whether or not they're probabilistic,
+    or if the opposition has an effect on them.
 
     Attributes
     ----------
@@ -11,7 +12,8 @@ class ScoreSettings:
     points (numeric):
         Number of points scored
     prob (bool):
-        If true, the score will be probabilistic on a condition (such as conversions after scores in tackle forms of football). If false a number of scores will be simulated.
+        If true, the score will be probabilistic on a condition (such as conversions after scores in tackle codes of football).
+        If false a number of scores will be simulated.
     opp_effect (bool):
         Indicates whether or not the opposition has an effect on this score
     base (bool):

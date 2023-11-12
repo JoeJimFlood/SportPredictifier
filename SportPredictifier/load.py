@@ -9,31 +9,6 @@ from .validation import validate_score_tables
 
 from .weighting.spatial import get_spatial_weight
 
-def __weighted_variance(data, weights):
-    assert len(data) == len(weights), 'Data and weights must be same length'
-    weighted_average = np.average(data, weights = weights)
-    v1 = weights.sum()
-    v2 = np.square(weights).sum()
-    return (weights*np.square(data - weighted_average)).sum() / (v1 - (v2/v1))
-
-def __int2hex(n):
-    n = hex(n)
-    return (4-len(n))*'0' + n[2:]
-
-def __combine_colors(df, r, g, b, out_field, cleanup = True):
-    """
-    Combines rgb coordinates into a single hex
-
-    Parameters
-    ----------
-
-    """
-    df[out_field] = '#' + df[r].apply(__int2hex) + df[g].apply(__int2hex) + df[b].apply(__int2hex)
-    if cleanup:
-        del df[r]
-        del df[g]
-        del df[b]
-
 def __load_table(object, df, multithreaded = False, result_dict = None):
     """
     Reads table from data frame into dictionary of objects
@@ -60,8 +35,8 @@ def __load_stadia(fp):
 def __load_teams(fp, stadia):
     print("Loading teams")
     team_table = pd.read_csv(fp)
-    __combine_colors(team_table, 'r1', 'g1', 'b1', 'color1')
-    __combine_colors(team_table, 'r2', 'g2', 'b2', 'color2')
+    combine_colors(team_table, 'r1', 'g1', 'b1', 'color1')
+    combine_colors(team_table, 'r2', 'g2', 'b2', 'color2')
     team_table['stadium'] = team_table['stadium'].map(stadia)
     
     return __load_table(Team, team_table)
@@ -125,7 +100,7 @@ def __calculate_stat(stats, team, direction, score_settings, score_type, score_t
                 score_tables[team][score_type + '_' + direction],
                 weights = weights
             ),
-                                            __weighted_variance(
+                                            weighted_variance(
                 score_tables[team][score_type + '_' + direction],
                 weights = weights
                 ))
@@ -201,7 +176,7 @@ def __get_residual_stats(teams, score_settings, score_tables):
                             score_tables[team]['_'.join(['RES', score_type, direction])],
                             weights = score_tables[team]['weight']
                             ),
-                        __weighted_variance(
+                        weighted_variance(
                             score_tables[team]['_'.join(['RES', score_type, direction])],
                             weights = score_tables[team]['weight']
                             )

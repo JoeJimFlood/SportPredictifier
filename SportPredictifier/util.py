@@ -6,6 +6,34 @@ from scipy.stats import entropy
 
 directions = ['F', 'A']
 
+def weighted_variance(data, weights):
+    '''
+    Computes a weighted variance of data
+    '''
+    assert len(data) == len(weights), 'Data and weights must be same length'
+    weighted_average = np.average(data, weights = weights)
+    v1 = weights.sum()
+    v2 = np.square(weights).sum()
+    return (weights*np.square(data - weighted_average)).sum() / (v1 - (v2/v1))
+
+def __int2hex(n):
+    n = hex(n)
+    return (4-len(n))*'0' + n[2:]
+
+def combine_colors(df, r, g, b, out_field, cleanup = True):
+    """
+    Combines rgb coordinates into a single hex
+
+    Parameters
+    ----------
+
+    """
+    df[out_field] = '#' + df[r].apply(__int2hex) + df[g].apply(__int2hex) + df[b].apply(__int2hex)
+    if cleanup:
+        del df[r]
+        del df[g]
+        del df[b]
+
 def compliment_direction(direction):
     if direction == 'F':
         return 'A'

@@ -1,6 +1,22 @@
 import numpy as np
+from .util import *
+from .weighting.spatial import get_spatial_weight
+global compliment_direction
 
 def spatial_weights(score_tables, teams, stadia):
+    '''
+    Calculates sptial weights to be used in score tables for calculation. For each score table stored in memory, a spatial weight field is
+    added in place for each stadium used in the competition.
+
+    Parameters
+    ----------
+    score_tables (SportPredictifier.ObjectCollection):
+        Collection of score tables for every team in the competition
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams playing in the competition
+    stadia (SportPredictifier.ObjectCollection):
+        Collection of teams competing in the competition
+    '''
     print("Calculating spatial weights")
     for team in score_tables:
         for stadium in stadia:
@@ -9,18 +25,39 @@ def spatial_weights(score_tables, teams, stadia):
             score_tables[team]['spatial_weight_{}'.format(stadium)] = score_tables[team]['VENUE'].apply(__get_stadium_specific_weight)
 
 def stat(stats, team, direction, score_settings, score_type, score_tables, reference_location = None):
+    '''
+    Calculates a stat for a specific score type for each team. A dictionary called `stats` is updated in place.
 
+    Parameters
+    ----------
+    stats (dict):
+        Dictionary to keep track of stats for each team
+    team (str):
+        Code of the team to calculate the stat of
+    direction (str):
+        Equal to "F" if for and "A" if against
+    score_settings (SportPredictifier.ObjectCollection):
+        Score settings for the competition
+    score_type (str):
+        Score type to calculate the stat of
+    score_tables (SportPredictifier.ObjectCollection):
+        Collection of score tables for each team
+    reference_location (str):
+        Code of stadium to be used as reference location for calculating spatial weights
+    '''
+    # Apply spatial weights if a reference location is given, otherwise use default weights
     if reference_location is not None:
         weights = score_tables[team]['spatial_weight_{}'.format(reference_location)]
     else:
         weights = score_tables[team]['weight']
 
+    # For probabilistic score types, divide 
     if score_settings[score_type].prob:
         condition = score_settings[score_type].condition.replace('{F}', direction).replace('{A}', compliment_direction(direction))
         if score_tables[team].eval(condition).sum() == 0:
             stats[direction][score_type] = score_settings[score_type].base
         else:
-            stats[direction][score_type] = (score_tables[team][score_type + '_' + direction]*score_tables[team]['weight']).sum() / (score_tables[team].eval(condition)*score_tables[team]['weight']).sum()
+            stats[direction][score_type] = (score_tables[team][score_type + '_' + direction]*weights).sum() / (score_tables[team].eval(condition)*weights).sum()
                         
     else:
         if score_settings[score_type].opp_effect:

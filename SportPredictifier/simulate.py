@@ -1,22 +1,43 @@
 import pandas as pd
-from pandas._libs.tslibs import timestamps
-import numpy as np
-
-'''
-Utility functions for SportPredictifier Simulation
-'''
 import numpy as np
 from numpy.random import poisson, binomial, negative_binomial
+from pandas._libs.tslibs import timestamps
 
 def __sim_poisson(mean, n_sim):
     '''
-    Simulates Poisson for when mean is equal to variance
+    Simulates from a Poisson distribution when the mean is equal to the variance
+
+    Parameters
+    ----------
+    mean (float):
+        Mean of the Poisson distribution to sample from
+    n_sim (int):
+        Number of simulations to run
+
+    Returns
+    -------
+    simulation_results (array of floats):
+        An array of length-`n_sim` with results of each simulation
     '''
     return poisson(mean, n_sim)
 
 def __sim_negative_binomial(mean, var, n_sim):
     '''
-    Simulates negative binomial for when mean is less than variance
+    Simulates from a negative binomial distribution when the mean is less than the variance
+
+    Parameters
+    ----------
+    mean (float):
+        Mean of the negative binomial distribution to sample from
+    var (float):
+        Variance of the negative binomial distribution to sample from
+    n_sim (int):
+        Number of simulations to run
+
+    Returns
+    -------
+    simulation_results (array of floats):
+        An array of length-`n_sim` with results of each simulation
     '''
     p = mean / var
     n = mean * p / (1-p)
@@ -29,7 +50,21 @@ def __sim_negative_binomial(mean, var, n_sim):
 
 def __sim_binomial(mean, var, n_sim):
     '''
-    Simulates binomial for when mean is greater than variance
+    Simulates from a binomial distribution when the mean is greater than the variance
+
+    Parameters
+    ----------
+    mean (float):
+        Mean of the binomial distribution to sample from
+    var (float):
+        Variance of the binomial distribution to sample from
+    n_sim (int):
+        Number of simulations to run
+
+    Returns
+    -------
+    simulation_results (array of floats):
+        An array of length-`n_sim` with results of each simulation
     '''
     p = 1 - (var/mean)
     n = (mean / p)
@@ -42,6 +77,23 @@ def __sim_binomial(mean, var, n_sim):
         print(mean, var, p)
 
 def __sim(mean, var, n_sim):
+    '''
+    Runs the simulation. The Poisson, binomial, or negative binomial distributions will be used depending on the values of the mean and the variance.
+
+    Parameters
+    ----------
+    mean (float):
+        Mean of the distribution to be sampled from
+    var (float):
+        Variance of the distribution to be sampled from
+    n_sim (int):
+        Number of simulations to run
+
+    Returns
+    -------
+    simulation_results (array of floats):
+        An array of length-`n_sim` with results of each simulation
+    '''
     #Check if there's a negative mean or variance. If so, set one to the other so a Poisson distribution can be used.
     if mean < 0:
         mean = var
@@ -57,7 +109,21 @@ def __sim(mean, var, n_sim):
 
 def __initialize_score_matrix(n_simulations, teams, score_settings):
     '''
-    Creates empty data frame to put scores in
+    Creates empty data frame before simulation to put scores into
+
+    Parameters
+    ----------
+    n_simulations (int):
+        Number of simulations to run
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams competing int the competition
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score settings for the competition
+
+    Returns
+    -------
+    score_matrix (pandas.DataFrame):
+        Empty data frame to put results of simulations in
     '''
     columns = []
     for team in teams:
@@ -65,14 +131,44 @@ def __initialize_score_matrix(n_simulations, teams, score_settings):
             columns.append('{0}_{1}'.format(score_type, team))
     return pd.DataFrame(np.empty((n_simulations, 2*len(score_settings)), np.ushort), columns = columns)
 
-
-#############################################################################################################################
 def __calculate_score(scores, score_array):
-    #assert len(scores) == len(score_array), 'Score array and scores must have same length'
-    #score_array = np.array(score_array)
+    '''
+    Takes the number of scores of each time for a simulation and calculates the final score of each individual simulation using a matrix product
+
+    Parameters
+    ----------
+    scores (pandas.DataFrame):
+        2D-array with the number of scores for each score type
+    score_array (pandas.Series):
+        Series with the point value for each score type
+
+    Returns
+    -------
+    final_scores (numpy.array):
+        1D-array with the point values for each simulated game
+    '''
     return scores.values.dot(score_array.values)
 
 def __eval_results(scores, knockout = False):
+    '''
+    Evaluates the results of the games based on the simulated scores, returning the number of wins for each teams (as well as draws if applicable)
+
+    Parameters
+    ----------
+    scores (pandas.DataFrame):
+        Data frame containing the scores for each team in every simulation (the teams are the columns)
+    knockout (bool):
+        Flag indicating if there has to be a winner for the game. If `True`, each team will be given a half win in the case of a draw
+
+    Returns
+    -------
+    team_1_wins (numpy.array):
+        Array with the games that were won by team 1
+    team_2_wins (numpy.array):
+        Array with the games that were won by team 2
+    draws (numpyarray):
+        Array with the games that ended in a draw
+    '''
     team1 = scores.columns[0]
     team2 = scores.columns[1]
     team1_wins = (scores[team1] > scores[team2]).astype(float)
@@ -82,9 +178,7 @@ def __eval_results(scores, knockout = False):
         team1_wins += (0.5*draws)
         team2_wins += (0.5*draws)
         draws = np.zeros_like(team1_wins)
-        return team1_wins, team2_wins, draws
-    else:
-        return team1_wins, team2_wins, draws
+    return team1_wins, team2_wins, draws
 
 #def eval_try_bonus(team_1_tries, team_2_tries, req_diff):
 #    team_1_bp = (team_1_tries - team_2_tries >= req_diff).astype(int)
@@ -99,12 +193,29 @@ def __eval_results(scores, knockout = False):
 
 def simulate_game(n_simulations, expected_scores, score_settings, venue, knockout):
     '''
-    Simulate a game
+    Simulates a game based on the input `expected_scores` among other settings
+
+    Parameters
+    ----------
+    n_simulations (int):
+        Number of simulations to run
+    expected_scores (dict):
+        Dictionary with the expected number of scores of each type for each team
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score settings for the competition
+    venue (SportPredictifier.stadium):
+        Venue of game being simulated
+    knockout (bool):
+        Flag indicating if there has to be a winner for the game. If `True`, each team will be given a half win in the case of a draw
+
+    Returns
+    -------
+    results (dict):
+        Dictionary containing the chances of each team winning along with the distribution of final scores
     '''
     scores = pd.DataFrame(np.empty((n_simulations, 2),
                                    dtype = np.uint8),
                           columns = expected_scores.keys())
-    #for team in expected_scores:
     score_matrix = __initialize_score_matrix(n_simulations,
                                                 expected_scores.keys(),
                                                 score_settings)

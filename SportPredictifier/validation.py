@@ -4,12 +4,27 @@ from .util import directions, compliment_direction
 def check_teams_and_venues(errors, score_tables, teams, stadia, settings):
     '''
     Checks that the teams and venues listed in the score table exist
+
+    Parameters
+    ----------
+    errors (list):
+        List of errors that are found during checks
+    score_tables (dict):
+        Dictionary of score tables to check
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams competing in the competition
+    stadia (SportPredictifier.ObjectCollection):
+        Collection of stadia used in the competition
+    settings (dict):
+        Settings for the competition
+
+    Returns
+    -------
+    errors (list):
+        List of errors that are found during checks (appended after call of this function)
     '''
     for team in score_tables:
         current_table = score_tables[team].copy()
-        #assert current_table['OPP'].apply(lambda x: x != team).all() # Checking that a team isn't recorded as playing against themselves
-        #assert current_table['OPP'].isin(teams.keys()).all() # Check if all opponents are valid
-        #assert current_table['VENUE'].isin(stadia.keys()).all() # Check if all venues are valid
         for ix, row in current_table.iterrows():
             if row['OPP'] == team:
                 errors.append("{0} is recorded as playing against themselves in {1} {2}".format(team,
@@ -30,7 +45,23 @@ def check_teams_and_venues(errors, score_tables, teams, stadia, settings):
 
 def check_consistency(errors, score_tables, score_settings, settings):
     '''
-    Checks for consistency between score tables
+    Checks for consistency between score tables in case different information is recorded for two teams that had played against each other
+
+    Parameters
+    ----------
+    errors (list):
+        List of errors that are found during checks
+    score_tables (dict):
+        Dictionary of score tables to check
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score_settings for the competition
+    settings (dict):
+        Settings for the competition
+
+    Returns
+    -------
+    errors (list):
+        List of errors that are found during checks (appended after call of this function)
     '''
     # Create large data frame for mapping
     scores_for = pd.DataFrame()
@@ -62,6 +93,22 @@ def check_consistency(errors, score_tables, score_settings, settings):
 def check_validity(errors, score_tables, score_settings, settings):
     '''
     Checks if every probabilistic score type is not greater than the condition
+
+    Parameters
+    ----------
+    errors (list):
+        List of errors that are found during checks
+    score_tables (dict):
+        Dictionary of score tables to check
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score_settings for the competition
+    settings (dict):
+        Settings for the competition
+
+    Returns
+    -------
+    errors (list):
+        List of errors that are found during checks (appended after call of this function)
     '''
     for score_type in score_settings:
         for team in score_tables:
@@ -88,6 +135,22 @@ def check_validity(errors, score_tables, score_settings, settings):
     return errors
                 
 def validate_score_tables(score_tables, score_settings, teams, stadia, settings):
+    '''
+    Validates the score tables before running anything. If any errors are found, they will be printed in the console window and an exception will be raised
+
+    Parameters
+    ----------
+    score_tables (dict):
+        Dictionary of score tables to check
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score_settings for the competition
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams competing in the competition
+    stadia (SportPredictifier.ObjectCollection):
+        Collection of stadia used in the competition
+    settings (dict):
+        Settings for the competition
+    '''
     print("Validating score tables")
     errors = []
     errors = check_teams_and_venues(errors, score_tables, teams, stadia, settings)

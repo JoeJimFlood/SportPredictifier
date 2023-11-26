@@ -4,16 +4,28 @@ from . import load
 from . import calculate
 from .report import generate_report, generate_pie_charts
 from .ranking import rank
-from .util import create_score_tables, calculate_hype, run_multithreaded_games
+from .util import run_multithreaded_games
 from .matrix import generate_schedule, write_matrix
 
 def initialize_season():
+    '''
+    Initializes a season by creating empty score tables based on the teams and the schedule.
+    Can be called from the command line by typing `SportPredictifier initialize_season`
+    '''
     print('Initializing Season')
     season_settings = load.settings('settings.yaml')
     (stadia, teams, score_settings) = load.data(season_settings, initializing_season = True)
     create_score_tables(season_settings, teams, stadia, score_settings)
 
 def predictify(round_number):
+    '''
+    Simulates all of the games of a given round. Can be called from the command line by typing `SportPredictifier predictify [round_number]`
+
+    Parameters
+    ----------
+    round_number (int):
+        Round number to use in simulation
+    '''
     season_settings = load.settings('settings.yaml')
     print('Predictifying {0} {1} {2}'.format(season_settings['name'], season_settings['round_name'], round_number))
     (stadia, teams, score_settings) = load.data(season_settings, round_number, '{0} < {1}'.format(season_settings['round_name'].upper(), round_number))
@@ -43,6 +55,16 @@ def predictify(round_number):
     generate_pie_charts(plotfile, teams, results, season_settings['round_name'], round_number)
 
 def matrix(outfile = 'matrix.csv'):
+    '''
+    Runs a matrix analysis by simulating a game between every remaining team, as specified by matrix.yaml.
+    This creates a matrix with the chance of each team beating the other.
+    Can be called from the command line by typing `SportPredictifier matrix [outfile]`
+
+    Parameters
+    ----------
+    outfile (str):
+        Outfile to write matrix to
+    '''
     print("Creating Matrix")
     season_settings = load.settings('settings.yaml')
     matrix_settings = load.settings('matrix.yaml')
@@ -70,6 +92,9 @@ def matrix(outfile = 'matrix.csv'):
     generate_report(outfile, teams, results)
 
 def main():
+    '''
+    The main function that calls either `initialize_season()`, `predictify()`, or `matrix()` depending on what the user specifies.
+    '''
     if sys.argv[1] == 'initialize_season':
         initialize_season()
 

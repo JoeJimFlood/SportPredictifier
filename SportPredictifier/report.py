@@ -6,6 +6,18 @@ import xlsxwriter
 from .util import get_plot_shape, get_font_size
 
 def generate_report(fp, teams, results):
+    '''
+    Generates the report XLSX file that has the chances of each team winning, the hype, and the characteristics of the distribution of scores from the simulations.
+
+    Parameters
+    ----------
+    fp (str):
+        Filepath to write to
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams in the competition
+    results (dict):
+        Dictionary of simulation results
+    '''
     print("Generating report")
     book = xlsxwriter.Workbook(fp, {'nan_inf_to_errors': True})
 
@@ -71,6 +83,22 @@ def generate_report(fp, teams, results):
     book.close()
 
 def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
+    '''
+    Plots pie charts for a group to be in the image
+
+    Parameters
+    ----------
+    fp (str):
+        Filepath to save plots to
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams in the competition
+    group_results (dict):
+        Results of games assigned to this group to be plotted
+    round_name (str):
+        The name of a round as defined in settings.yaml
+    round_number (int):
+        The round number of the games being shown
+    '''
     n_games_in_group = len(group_results)
     plot_shape = get_plot_shape(n_games_in_group)
     
@@ -146,6 +174,22 @@ def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
     plt.savefig(fp)
 
 def generate_pie_charts(fp, teams, results, round_name, round_number):
+    '''
+    Generates the pie charts that show the estimated chances of each team winning each game
+
+    Parameters
+    ----------
+    fp (str):
+        Filepath to save plots to
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams in the competition
+    results (dict):
+        Results of games to be plotted
+    round_name (str):
+        The name of a round as defined in settings.yaml
+    round_number (int):
+        The round number of the games being shown
+    '''
     assert fp.endswith('.png'), "Outfile must be a PNG file"
 
     matchups = list(results.keys())

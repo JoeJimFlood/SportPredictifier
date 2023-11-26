@@ -2,39 +2,23 @@ import pandas as pd
 import numpy as np
 import os
 from math import log2
-from scipy.stats import entropy
 
 directions = ['F', 'A']
 
-def weighted_variance(data, weights):
+def compliment_direction(direction):
     '''
-    Computes a weighted variance of data
-    '''
-    assert len(data) == len(weights), 'Data and weights must be same length'
-    weighted_average = np.average(data, weights = weights)
-    v1 = weights.sum()
-    v2 = np.square(weights).sum()
-    return (weights*np.square(data - weighted_average)).sum() / (v1 - (v2/v1))
-
-def __int2hex(n):
-    n = hex(n)
-    return (4-len(n))*'0' + n[2:]
-
-def combine_colors(df, r, g, b, out_field, cleanup = True):
-    """
-    Combines rgb coordinates into a single hex
+    Returns the opposite direction between "F" (for) and "A" (against)
 
     Parameters
     ----------
-
-    """
-    df[out_field] = '#' + df[r].apply(__int2hex) + df[g].apply(__int2hex) + df[b].apply(__int2hex)
-    if cleanup:
-        del df[r]
-        del df[g]
-        del df[b]
-
-def compliment_direction(direction):
+    direction (str):
+        Ether "F" for "for" or "A" for "against"
+    
+    Returns
+    -------
+    compliment_direction (str):
+        Opposite of input direction
+    '''
     if direction == 'F':
         return 'A'
     elif direction == 'A':
@@ -42,17 +26,94 @@ def compliment_direction(direction):
     else:
         raise IOError('{} is an invalid direction. Must be "F" or "A"'.format(direction))
 
+def __int2hex(n):
+    '''
+    Converts an integer to a 2-digit hexidecimal number
+
+    Parameters
+    ----------
+    n (int):
+        Base-10 integer to convert to hexadecimal
+    
+    Returns
+    -------
+    hex (str):
+        String of 2-digit hexadecimal number
+    '''
+    n = hex(n)
+    return (4-len(n))*'0' + n[2:]
+
+def combine_colors(df, r, g, b, out_field, cleanup = True):
+    """
+    Combines rgb coordinates into a single hex string. This is done in place for a data frame
+
+    Parameters
+    ----------
+    df (pandas.DataFrame):
+        Data frame containing columns with r, g, and b values
+    r (str):
+        Column of `df` with the amount of red
+    g (str):
+        Column of `df` with the amount of green
+    b (str):
+        Column of `df` with the amount of blue
+    out_field (str):
+        Name of new column to be added with the result
+    Cleanup (bool):
+        If `True`, the `r`, `g`, and `b` columns will be deleted from memory
+    """
+    df[out_field] = '#' + df[r].apply(__int2hex) + df[g].apply(__int2hex) + df[b].apply(__int2hex)
+    if cleanup:
+        del df[r]
+        del df[g]
+        del df[b]
+
 def cap_probability(p): #Maybe make enpoints configurable
+    '''
+    Caps the probability at 0 or 1 if it is outside that range
+
+    Parameters
+    ----------
+    p (float):
+        Probability value
+    
+    Returns
+    -------
+    capped_prob (float):
+        `p` capped at 0 if lower than that or 1 if higher than that
+    '''
     return np.minimum(
         np.maximum(
             p, 0),
         1)
 
 def run_multithreaded_games(games):
+    '''
+    Runs simulations of multiple games on different threads
+
+    Parameters
+    ----------
+    games (SportPredictifier.ObjectCollection):
+        Collection of games to simulate
+    '''
     for game in games:
         game.join()
 
 def create_score_table(directory, team, schedule, score_settings):
+    '''
+    Creates a blank score table when initializing a season based on the schedule and score_settings
+
+    Parameters
+    ----------
+    directory (str):
+        Directory to write score table to
+    team (str):
+        Code of team to create score table for
+    schedule (pandas.DataFrame):
+        Schedule of entire competition
+    score_settings (SportPredictifier.ObjectCollection):
+        Collection of score settings for the competition
+    '''
     columns = ['ROUND', 'OPP', 'VENUE']
     for direction in directions:
         for score_type in score_settings:
@@ -70,7 +131,20 @@ def create_score_table(directory, team, schedule, score_settings):
     score_table.to_csv(os.path.join(directory, team + '.csv'), index = False)
 
 def create_score_tables(settings, teams, stadia, score_settings):
+    '''
+    Creates empty score tables for every team when initializing a season
 
+    Parameters
+    ----------
+    settings (dict):
+        Settings for the competition
+    teams (SportPredictifier.ObjectCollection):
+        Collection of teams competing in the competition
+    stadia (SportPredictifier.ObjectCollection):
+        Collection of stadia used in the competition
+    score_settings (SportPredictifier.ObjectCollection):
+         Collection of score settings for the competition
+    '''
     schedule = pd.read_csv(settings['schedule_file'])
     score_table_path = settings['score_table_path']
 
@@ -99,26 +173,20 @@ def create_score_tables(settings, teams, stadia, score_settings):
     for team in teams:
         create_score_table(score_table_path, team, schedule, score_settings)
 
-def calculate_hype(season_settings, results, round_number):
-    print("Calculating hype for each game")
-    rankings = pd.read_csv(
-        os.path.join(
-            season_settings["ranking_directory"],
-            season_settings["ranking_filename"] + '.csv').format(round_number),
-        index_col = 0
-        )
-
-    for result in results:
-        results[result]["quality"] = rankings["Quantile"].loc[results[result]["chances"].keys()].mean()
-        results[result]["entropy"] = entropy(
-            list(
-                results[result]["chances"].values()
-                ),
-            base = 2
-            )
-        results[result]["hype"] = 100*results[result]["quality"]*results[result]["entropy"]
-
 def get_plot_shape(n_games):
+    '''
+    Obtains the plot shape based on the number of games within a group when plotting the pie charts
+
+    Parameters
+    ----------
+    n_games (int):
+        Number of games ranging from 1 to 9
+
+    Returns
+    -------
+    plot_size (tuple):
+        A shape of plots that can be an argument to matplotlib.pyplot.subplot()
+    '''
     plot_sizes = {
         1: (1, 1),
         2: (1, 2),
@@ -133,6 +201,19 @@ def get_plot_shape(n_games):
     return plot_sizes[n_games]
 
 def get_font_size(n_games):
+    '''
+    Returns the font size to be used in pie charts based on the number of games
+
+    Parameters
+    ----------
+    n_games (int):
+        Number of games ranging from 1 to 9
+    
+    Returns
+    -------
+    font_size (int):
+        Size of font to used for text in plots
+    '''
     if n_games == 1:
         return 48
     elif n_games < 5:

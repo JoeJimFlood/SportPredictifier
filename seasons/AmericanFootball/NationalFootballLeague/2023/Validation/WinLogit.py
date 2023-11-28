@@ -5,7 +5,7 @@ import os
 from scipy.special import expit, logit
 
 infile = 'WinLogitData8+.csv'
-data = pd.read_csv(infile)
+data = pd.read_csv(infile).dropna()
 data['LogOdds'] = logit(data['HomeChance'])
 data['Intercept'] = np.ones_like(data.index)
 

@@ -18,6 +18,8 @@ dependencies = [
     "numpy",
     "pandas",
     "scipy",
-    "matplotlib"
+    "matplotlib",
+    "pyyaml",
+    "xlsxwriter"
 ]
-dynamic = ["version"]
+dynamic = ["version", "scripts", "requires-python"]

@@ -105,7 +105,7 @@ def __plot_pie_chart_group(fp, teams, group_results, round_name, round_number):
     font_size = get_font_size(n_games_in_group)
 
     plt.figure(figsize = (15, 15), dpi = 96)
-    plt.title('{0} {1}'.format(round_name, round_number))
+    plt.axis("off")
     counter = 0
     for result in group_results:
         (team1, team2) = result.split("v")

@@ -1,4 +1,4 @@
-name: Mechanical Test
+name: NFL
 round_name: Week
 stadia_file: stadia.csv
 teams_file: teams.csv

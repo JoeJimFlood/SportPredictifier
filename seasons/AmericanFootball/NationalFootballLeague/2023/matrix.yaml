@@ -1,13 +1,24 @@
+round_number: 20
+outfile: matrix_WC.csv
+
 teams:
-  east:
-    - NE
-    - OGDC
-    - NY
-  west:
-    - SD
-    - SEA
-    - UTAH
+  AFC:
+    - BAL
+    - BUF
+    - KC
+    - HOU
+    - CLE
+    - MIA
+    - PIT
+  NFC:
+    - SF
+    - DAL
+    - DET
+    - TB
+    - PHI
+    - LAR
+    - GB
 neutral_venues:
-  CHI:
-    - east
-    - west
+  LV:
+    - AFC
+    - NFC

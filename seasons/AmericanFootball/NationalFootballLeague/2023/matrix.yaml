@@ -1,5 +1,5 @@
 round_number: 20
-outfile: matrix_WC.csv
+outfile: matrix_DIV.csv
 
 teams:
   AFC:
@@ -7,16 +7,10 @@ teams:
     - BUF
     - KC
     - HOU
-    - CLE
-    - MIA
-    - PIT
   NFC:
     - SF
-    - DAL
     - DET
     - TB
-    - PHI
-    - LAR
     - GB
 neutral_venues:
   LV:

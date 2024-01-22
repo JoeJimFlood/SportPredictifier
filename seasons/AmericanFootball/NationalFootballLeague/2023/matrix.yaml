@@ -1,17 +1,13 @@
 round_number: 20
-outfile: matrix_DIV.csv
+outfile: matrix_CON.csv
 
 teams:
   AFC:
     - BAL
-    - BUF
     - KC
-    - HOU
   NFC:
     - SF
     - DET
-    - TB
-    - GB
 neutral_venues:
   LV:
     - AFC

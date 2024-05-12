@@ -2,7 +2,7 @@ import sys
 import os
 from . import load
 from . import calculate
-from .report import generate_report, generate_pie_charts
+from .report import generate_report, generate_pie_charts, store_simulation_results
 from .ranking import rank
 from .util import run_multithreaded_games
 from .matrix import generate_schedule, write_matrix
@@ -51,6 +51,18 @@ def predictify(round_number):
 
     outfile = os.path.join(season_settings['output_directory'], (season_settings['report_filename'] + '.xlsx').format(round_number))
     plotfile = os.path.join(season_settings['output_directory'], (season_settings['plot_filename'] + '.png').format(round_number))
+
+    if 'store_simulation_results' in season_settings and season_settings["store_simulation_results"]:
+        store_simulation_results(
+            os.path.join(
+            season_settings['output_directory'],
+            "{0}{1}Simulations".format(
+                season_settings['round_name'],
+                round_number
+                )),
+                results
+                )
+
     generate_report(outfile, teams, results)
     generate_pie_charts(plotfile, teams, results, season_settings['round_name'], round_number)
 

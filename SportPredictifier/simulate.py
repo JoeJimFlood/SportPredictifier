@@ -191,7 +191,7 @@ def __eval_results(scores, knockout = False):
 #    team_2_bp = ((diff > 0)*(diff <= req_diff)).astype(int)
 #    return team_1_bp, team_2_bp
 
-def simulate_game(n_simulations, expected_scores, score_settings, venue, knockout):
+def simulate_game(n_simulations, expected_scores, score_settings, venue, knockout, return_scores):
     '''
     Simulates a game based on the input `expected_scores` among other settings
 
@@ -207,6 +207,8 @@ def simulate_game(n_simulations, expected_scores, score_settings, venue, knockou
         Venue of game being simulated
     knockout (bool):
         Flag indicating if there has to be a winner for the game. If `True`, each team will be given a half win in the case of a draw
+    return_scores (bool):
+        Flag indicating if all of the scores from the simulations should be returned
 
     Returns
     -------
@@ -256,5 +258,11 @@ def simulate_game(n_simulations, expected_scores, score_settings, venue, knockou
 
     percentiles = np.arange(0.05, 1, 0.05)
     results['score_distributions'] = scores.describe(percentiles)
+
+    if return_scores:
+        for team in scores:
+            score_matrix['SCORE_' + team] = scores[team]
+        score_matrix.index.name = 'SIMULATION'
+        results['scores'] = score_matrix
 
     return results

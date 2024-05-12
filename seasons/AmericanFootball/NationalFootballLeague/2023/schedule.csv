@@ -283,3 +283,4 @@ round_number,year,month,day,team1,team2,venue,knockout
 20,2024,1,21,KC,BUF,KC,TRUE
 21,2024,1,28,BAL,KC,BAL,TRUE
 21,2024,1,28,SF,DET,SF,TRUE
+22,2024,2,11,KC,SF,LV,TRUE

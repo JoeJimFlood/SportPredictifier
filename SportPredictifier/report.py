@@ -226,3 +226,14 @@ def generate_pie_charts(fp, teams, results, round_name, round_number):
                 round_name,
                 round_number
                 )
+            
+def store_simulation_results(dir, results):
+    assert "scores" in results[list(results.keys())[0]], "Scores must be present in results to store them"
+
+    # Check if path to keep results in exists, and if not make it
+    if not os.path.isdir(dir):
+        os.mkdir(dir)
+
+    for matchup in results:
+        print("Writing scores for " + matchup)
+        results[matchup]["scores"].to_csv(os.path.join(dir, matchup + '_simresults.csv'))

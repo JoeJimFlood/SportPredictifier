@@ -95,17 +95,17 @@ def __sim(mean, var, n_sim):
         An array of length-`n_sim` with results of each simulation
     '''
     #Check if there's a negative mean or variance. If so, set one to the other so a Poisson distribution can be used.
-    if mean < 0:
-        mean = var
-    if var < 0:
-        var = mean
+    # if mean < 0:
+    #     mean = var
+    # if var < 0:
+    #     var = mean
 
-    if mean > var:
-        return __sim_binomial(mean, var, n_sim)
-    elif mean < var:
-        return __sim_negative_binomial(mean, var, n_sim)
-    else:
-        return __sim_poisson(mean, n_sim)
+    # if mean > var:
+    #     return __sim_binomial(mean, var, n_sim)
+    # elif mean < var:
+    #     return __sim_negative_binomial(mean, var, n_sim)
+    # else:
+    return __sim_poisson(mean, n_sim)
 
 def __initialize_score_matrix(n_simulations, teams, score_settings):
     '''

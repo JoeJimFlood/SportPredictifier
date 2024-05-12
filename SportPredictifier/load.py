@@ -210,9 +210,6 @@ def data(settings, round_number = None, score_table_query = None, drop_null_scor
 
         calculate.residual_stats(teams, score_settings, score_tables)
 
-        import pdb
-        pdb.set_trace()
-
     return stadia, teams, score_settings
 
 def schedule(settings, teams, stadia, score_settings, round_number = None, multithreaded = False, result_dict = None, schedule_override = None):
@@ -260,5 +257,6 @@ def schedule(settings, teams, stadia, score_settings, round_number = None, multi
     schedule_table['venue'] = schedule_table['venue'].map(stadia)
 
     schedule_table['store_results'] = settings['store_simulation_results']*np.ones(len(schedule_table), bool)
+    schedule_table['min_expected_mean'] = settings['min_expected_mean']*np.ones(len(schedule_table))
 
     return __load_table(Game, schedule_table, multithreaded, result_dict)

@@ -33,7 +33,7 @@ class Game(threading.Thread):
         If set to `True`, every simulated game will be stored in a CSV
     '''
 
-    def __init__(self, result_dict, round_number, date, team1, team2, venue, knockout, score_settings, n_simulations, store_results):
+    def __init__(self, result_dict, round_number, date, team1, team2, venue, knockout, score_settings, n_simulations, store_results, min_expected_mean):
         
         threading.Thread.__init__(self)
 
@@ -47,6 +47,7 @@ class Game(threading.Thread):
         self.result_dict = result_dict
         self.n_simulations = n_simulations
         self.store_results = store_results
+        self.min_expected_mean = min_expected_mean
         
         # Initialize expected scores
         self.expected_scores = {
@@ -107,4 +108,11 @@ class Game(threading.Thread):
         print(self.expected_scores) # TODO: Possibly make this optional? Though I've always liked seeing it when running it
 
         # Update `result_dict` with the results of the simulation
-        self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = simulate_game(self.n_simulations, self.expected_scores, self.score_settings, self.venue, self.knockout, self.store_results)
+        self.result_dict['{0}v{1}'.format(self.team1.code, self.team2.code)] = simulate_game(self.n_simulations,
+                                                                                             self.expected_scores,
+                                                                                             self.score_settings,
+                                                                                             self.venue,
+                                                                                             self.knockout,
+                                                                                             self.store_results,
+                                                                                             self.min_expected_mean
+                                                                                             )

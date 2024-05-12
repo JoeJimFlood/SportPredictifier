@@ -76,7 +76,7 @@ def __sim_binomial(mean, var, n_sim):
     except ValueError:
         print(mean, var, p)
 
-def __sim(mean, var, n_sim):
+def __sim(mean, var, n_sim, min_expected_mean):
     '''
     Runs the simulation. The Poisson, binomial, or negative binomial distributions will be used depending on the values of the mean and the variance.
 
@@ -105,7 +105,7 @@ def __sim(mean, var, n_sim):
     # elif mean < var:
     #     return __sim_negative_binomial(mean, var, n_sim)
     # else:
-    return __sim_poisson(mean, n_sim)
+    return __sim_poisson(np.maximum(mean, min_expected_mean), n_sim)
 
 def __initialize_score_matrix(n_simulations, teams, score_settings):
     '''
@@ -191,7 +191,7 @@ def __eval_results(scores, knockout = False):
 #    team_2_bp = ((diff > 0)*(diff <= req_diff)).astype(int)
 #    return team_1_bp, team_2_bp
 
-def simulate_game(n_simulations, expected_scores, score_settings, venue, knockout, return_scores):
+def simulate_game(n_simulations, expected_scores, score_settings, venue, knockout, return_scores, min_expected_mean):
     '''
     Simulates a game based on the input `expected_scores` among other settings
 
@@ -233,8 +233,9 @@ def simulate_game(n_simulations, expected_scores, score_settings, venue, knockou
         else:
             for team in expected_scores:
                 score_matrix['{0}_{1}'.format(score_type, team)] = __sim(expected_scores[team][score_type][0],
-                                                                         expected_scores[team][score_type][1],
-                                                                         n_simulations)
+                                                                        expected_scores[team][score_type][1],
+                                                                        n_simulations,
+                                                                        min_expected_mean)
 
     scores = pd.DataFrame(np.empty((n_simulations, 2)), columns = expected_scores.keys())
     for team in expected_scores:

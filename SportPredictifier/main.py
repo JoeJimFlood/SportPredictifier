@@ -4,7 +4,7 @@ from . import load
 from . import calculate
 from .report import generate_report, generate_pie_charts, store_simulation_results
 from .ranking import rank
-from .util import run_multithreaded_games
+from .util import run_multithreaded_games, create_score_tables
 from .matrix import generate_schedule, write_matrix
 
 def initialize_season():

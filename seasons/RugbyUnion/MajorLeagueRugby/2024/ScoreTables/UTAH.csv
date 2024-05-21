@@ -9,7 +9,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 9,OGDC,UTAH,4,4,1,0,4,2,0,0,1
 10,HOU,UTAH,3,3,1,0,4,3,1,0,1
 11,MIA,MIA,3,2,0,0,2,2,2,0,1
-12,NOLA,NOLA,,,,,,,,,
+12,NOLA,NOLA,2,2,0,0,3,3,0,0,1
 14,SD,UTAH,,,,,,,,,
 15,SEA,SEA,,,,,,,,,
 16,NE,NE,,,,,,,,,

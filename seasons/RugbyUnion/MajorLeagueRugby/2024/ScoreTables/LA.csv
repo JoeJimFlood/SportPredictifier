@@ -8,7 +8,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 8,CHI,CHI,5,3,0,0,8,7,0,0,1
 9,NE,LA,2,1,0,0,5,3,1,0,1
 11,DAL,DAL,4,3,1,0,4,3,0,0,1
-12,CAR,CAR,,,,,,,,,
+12,CAR,CAR,4,2,3,0,4,3,1,0,1
 13,SD,LA,,,,,,,,,
 14,MIA,LA,,,,,,,,,
 15,HOU,HOU,,,,,,,,,

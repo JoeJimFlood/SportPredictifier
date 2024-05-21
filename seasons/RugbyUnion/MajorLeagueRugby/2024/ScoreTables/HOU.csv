@@ -9,7 +9,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 9,SD,HOU,5,4,0,0,0,0,0,0,1
 10,UTAH,UTAH,4,3,1,0,3,3,1,0,1
 11,CAR,CAR,6,4,0,0,2,1,1,0,1
-12,CHI,HOU,,,,,,,,,
+12,CHI,HOU,3,1,2,0,4,1,0,0,1
 14,NOLA,NOLA,,,,,,,,,
 15,LA,HOU,,,,,,,,,
 16,SEA,HOU,,,,,,,,,

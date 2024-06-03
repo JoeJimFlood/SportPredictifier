@@ -10,7 +10,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 11,SEA,NOLA,4,3,2,0,4,4,1,0,1
 12,UTAH,NOLA,3,3,0,0,2,2,0,0,1
 13,CHI,CHI,3,2,2,0,2,0,1,0,1
-14,HOU,NOLA,,,,,,,,,
+14,HOU,NOLA,1,1,0,0,3,3,0,0,1
 15,MIA,MIA,,,,,,,,,
 16,LA,LA,,,,,,,,,
 17,NE,NOLA,,,,,,,,,

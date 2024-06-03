@@ -10,7 +10,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 10,OGDC,OGDC,1,1,1,0,2,0,1,0,1
 11,UTAH,MIA,2,2,2,0,3,2,0,0,1
 13,NE,MIA,2,1,1,0,1,1,2,0,1
-14,LA,LA,,,,,,,,,
+14,LA,LA,3,0,0,0,6,6,1,0,1
 15,NOLA,MIA,,,,,,,,,
 16,CAR,CAR,,,,,,,,,
 17,OGDC,MIA,,,,,,,,,

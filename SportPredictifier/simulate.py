@@ -241,8 +241,9 @@ def simulate_game(n_simulations, expected_scores, score_settings, venue, knockou
     for team in expected_scores:
         team_columns = []
         for col in score_matrix.columns:
-            if team in col:
+            if col.split('_')[1] == team:
                 team_columns.append(col)
+                
         scores[team] = __calculate_score(score_matrix[team_columns],
                                          score_settings.extract_attribute('points'))
 

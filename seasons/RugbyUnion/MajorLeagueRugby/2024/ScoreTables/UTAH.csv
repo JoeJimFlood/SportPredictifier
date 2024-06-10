@@ -11,7 +11,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 11,MIA,MIA,3,2,0,0,2,2,2,0,1
 12,NOLA,NOLA,2,2,0,0,3,3,0,0,1
 14,SD,UTAH,3,1,1,0,3,3,2,0,1
-15,SEA,SEA,,,,,,,,,
+15,SEA,SEA,4,3,1,0,10,9,0,0,1
 16,NE,NE,,,,,,,,,
 17,DAL,UTAH,,,,,,,,,
 18,LA,UTAH,,,,,,,,,

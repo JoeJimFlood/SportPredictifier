@@ -11,7 +11,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 11,OGDC,CHI,3,3,0,0,1,1,5,0,1
 12,HOU,HOU,4,1,0,0,3,1,2,0,1
 13,NOLA,CHI,2,0,1,0,3,2,2,0,1
-15,DAL,DAL,,,,,,,,,
+15,DAL,DAL,2,1,1,0,3,2,1,0,1
 16,SD,CHI,,,,,,,,,
 17,CAR,CAR,,,,,,,,,
 18,MIA,CHI,,,,,,,,,

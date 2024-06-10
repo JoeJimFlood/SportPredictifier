@@ -11,7 +11,7 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 12,NE,SD,3,1,2,0,3,3,1,0,1
 13,LA,LA,4,2,1,0,3,2,0,0,1
 14,UTAH,UTAH,3,3,2,0,3,1,1,0,1
-15,CAR,SD,,,,,,,,,
+15,CAR,SD,5,3,1,0,3,3,1,0,1
 16,CHI,CHI,,,,,,,,,
 17,HOU,SD,,,,,,,,,
 18,SEA,SD,,,,,,,,,

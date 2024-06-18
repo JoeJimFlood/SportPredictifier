@@ -12,6 +12,6 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 12,LA,CAR,4,3,1,0,4,2,3,0,1
 14,OGDC,OGDC,5,2,0,0,7,6,0,0,1
 15,SD,SD,3,3,1,0,5,3,1,0,1
-16,MIA,CAR,,,,,,,,,
+16,MIA,CAR,2,2,0,0,4,1,2,0,1
 17,CHI,CAR,,,,,,,,,
 18,NE,NE,,,,,,,,,

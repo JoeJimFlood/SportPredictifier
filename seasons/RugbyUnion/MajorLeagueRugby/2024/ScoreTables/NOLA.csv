@@ -12,6 +12,6 @@ ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
 13,CHI,CHI,3,2,2,0,2,0,1,0,1
 14,HOU,NOLA,1,1,0,0,3,3,0,0,1
 15,MIA,MIA,2,2,2,0,1,1,2,0,1
-16,LA,LA,,,,,,,,,
+16,LA,LA,6,4,0,0,3,3,0,0,1
 17,NE,NOLA,,,,,,,,,
 18,OGDC,OGDC,,,,,,,,,

@@ -11,6 +11,6 @@ output_directory: forecasts
 report_filename: ReportRound{}
 plot_filename: PlotsRound{}
 use_spatial_weights: True
-n_simulations: 5000000
+n_simulations: 1000000
 store_simulation_results: False
 min_expected_mean: 0.01

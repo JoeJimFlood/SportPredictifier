@@ -1,16 +1,12 @@
 round_number: 19
-outfile: ConSF_matrix.csv
+outfile: Con_matrix.csv
 
 teams:
   east:
     - NE
-    - NOLA
     - CHI
-    - OGDC
   west:
-    - HOU
     - SEA
-    - SD
     - DAL
 
 neutral_venues:

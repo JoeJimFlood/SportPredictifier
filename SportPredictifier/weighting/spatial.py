@@ -1,6 +1,6 @@
 import math
 
-def __geodesic_distance(olat, olng, dlat, dlng):
+def geodesic_distance(olat, olng, dlat, dlng):
     '''
     Returns geodesic distance in percentage of half the earth's circumference between two points on the earth's surface
 
@@ -54,6 +54,6 @@ def get_spatial_weight(stadium, home, reference):
     reference (SportPredictifier.Stadium):
         Stadium to use as a reference location
     '''
-    reference_distance = __geodesic_distance(home.lat, home.lon, reference.lat, reference.lon)
-    travel_distance = __geodesic_distance(home.lat, home.lon, stadium.lat, stadium.lon)
+    reference_distance = geodesic_distance(home.lat, home.lon, reference.lat, reference.lon)
+    travel_distance = geodesic_distance(home.lat, home.lon, stadium.lat, stadium.lon)
     return 1 - abs(travel_distance - reference_distance)

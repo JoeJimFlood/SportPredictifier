@@ -1,0 +1,17 @@
+ROUND,OPP,VENUE,T_F,C_F,P_F,DG_F,T_A,C_A,P_A,DG_A,weight
+1,OGDC,MIA,4,3,1,0,5,3,0,0,1
+2,NOLA,MIA,3,3,3,0,3,2,2,0,1
+3,CAR,CAR,4,3,2,0,5,3,0,0,1
+4,CHI,MIA,,,,,,,,,
+5,UTAH,MIA,,,,,,,,,
+6,SD,SD,,,,,,,,,
+8,NE,NE,,,,,,,,,
+9,HOU,MIA,,,,,,,,,
+10,OGDC,OGDC,,,,,,,,,
+12,CAR,MIA,,,,,,,,,
+14,CHI,CHI,,,,,,,,,
+15,NOLA,NOLA,,,,,,,,,
+17,NE,MIA,,,,,,,,,
+18,LA,LA,,,,,,,,,
+19,SD,MIA,,,,,,,,,
+21,SEA,SEA,,,,,,,,,

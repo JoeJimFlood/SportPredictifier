@@ -13,3 +13,4 @@ plot_filename: PlotsWeek{}
 use_spatial_weights: True
 n_simulations: 5000000
 store_simulation_results: True
+min_expected_mean: 0.01

@@ -1,0 +1,15 @@
+round_number: 19
+outfile: Con_matrix.csv
+
+teams:
+  east:
+    - NE
+    - CHI
+  west:
+    - SEA
+    - DAL
+
+neutral_venues:
+  SD:
+    - east
+    - west
